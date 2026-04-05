@@ -321,7 +321,7 @@ private struct IdleView: View {
                 InfoCardRow(
                     icon: cleaningState.hasTouchID ? "touchid" : "circle.grid.3x3.fill",
                     iconTint: Design.accentEnd,
-                    title: cleaningState.hasTouchID ? "Touch ID to unlock" : "PIN or Password to unlock",
+                    title: cleaningState.hasTouchID ? "Touch ID to unlock" : "PIN to unlock",
                     subtitle: "A deliberate unlock path when you’re done"
                 )
                 InsetDivider()
@@ -1097,29 +1097,19 @@ private struct UnlockButton: View {
                     removal:   .scale(scale: 0.9).combined(with: .opacity)
                 ))
 
-                // Fallback row: always visible so there's always an alternative path
-                if cleaningState.authState != .authenticating {
-                    HStack(spacing: 10) {
-                        if cleaningState.pinEnabled {
-                            FallbackPill(label: "Use PIN") {
-                                withAnimation(.spring(response: 0.3)) {
-                                    pinEntry = ""
-                                    pinFailed = false
-                                    showPINPad = true
-                                }
-                            }
-                        }
-                        FallbackPill(label: "Use Password") {
-                            cleaningState.authenticateToUnlock(usePassword: true) { success in
-                                if !success { onFailure() }
-                            }
+                // PIN fallback pill — visible whenever a PIN is configured
+                if cleaningState.pinEnabled && cleaningState.authState != .authenticating {
+                    FallbackPill(label: "Use PIN") {
+                        withAnimation(.spring(response: 0.3)) {
+                            pinEntry = ""
+                            pinFailed = false
+                            showPINPad = true
                         }
                     }
                 }
             }
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.8), value: showPINPad)
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: cleaningState.showPasswordFallback)
         .onAppear {
             // Macs without Touch ID: if a PIN is set, make the pad the default view
             if !cleaningState.hasTouchID && cleaningState.pinEnabled {
@@ -1171,7 +1161,7 @@ private struct UnlockButton: View {
 
     private var stateLabel: String {
         switch cleaningState.authState {
-        case .idle:           return cleaningState.hasTouchID ? "Unlock with Touch ID" : "Unlock with Password"
+        case .idle:           return "Unlock with Touch ID"
         case .authenticating: return "Verifying…"
         case .failed:         return "Try Again"
         case .success:        return "Unlocked"
@@ -1195,7 +1185,7 @@ private struct UnlockButton: View {
             } else if cleaningState.hasTouchID {
                 return "Uses Touch ID to unlock the keyboard"
             } else {
-                return "Uses PIN or system password to unlock the keyboard"
+                return "Uses PIN to unlock the keyboard"
             }
         case .failed: return "Previous attempt failed. Tap to try again."
         default:      return ""
@@ -1861,13 +1851,7 @@ private struct OnboardingView: View {
             unlockPage = (
                 icon: "circle.grid.3x3.fill",
                 title: "PIN to Unlock",
-                subtitle: "This Mac doesn’t have Touch ID, so you’ll unlock from the on-screen PIN pad with your mouse."
-            )
-        case .password:
-            unlockPage = (
-                icon: "key.fill",
-                title: "Password Fallback",
-                subtitle: "If Touch ID isn’t available, Keyboard Cleaner falls back to your Mac password so you’re never locked in."
+                subtitle: "No Touch ID? No problem — unlock using the on-screen PIN pad with your mouse, no keyboard needed."
             )
         }
 
@@ -2149,11 +2133,11 @@ private struct DiagnosticsSheet: View {
 
     private func statusColor(for value: String) -> Color {
         switch value {
-        case "Granted", "Installed", "Completed", "On":
+        case "Granted", "Active", "Completed", "On":
             return Design.accentStart
-        case "Missing", "Inactive", "Pending":
+        case "Missing", "Unavailable", "Pending":
             return Color(red: 0.90, green: 0.35, blue: 0.25)
-        case "Off":
+        case "Ready", "Off":
             return .secondary
         default:
             return .primary
@@ -2230,26 +2214,20 @@ private struct HelpSheet: View {
             if cleaningState.pinEnabled {
                 return [
                     "**Touch ID** is the primary unlock path — place your finger on the sensor.",
-                    "Switch to the **PIN pad** from the overlay or main window as a fallback.",
-                    "Use **Password** (always visible) if both Touch ID and PIN are unavailable."
+                    "If Touch ID fails, tap **Use PIN** to switch to the mouse-clickable PIN pad.",
+                    "The physical Touch ID key may trigger the macOS lock screen on some Macs."
                 ]
             }
             return [
                 "**Touch ID** is the primary unlock path — place your finger on the sensor.",
-                "Use **Password** (always visible in the unlock panel) as a fallback.",
+                "Set a **PIN** in Settings to have a mouse-only fallback if Touch ID isn't working.",
                 "The physical Touch ID key may trigger the macOS lock screen on some Macs."
             ]
         case .pin:
             return [
-                "Click digits on the **PIN pad** with your mouse to unlock.",
-                "The PIN pad is available directly in both the main window and the minimal overlay.",
-                "Use **Password** as a fallback if you forget your PIN."
-            ]
-        case .password:
-            return [
-                "Use your **Mac password** via the unlock button in the main window.",
-                "The password prompt is handled by macOS and never types into other apps.",
-                "Set a **PIN** in Settings for a mouse-only fallback that doesn't require a password."
+                "Click digits on the **PIN pad** with your mouse — no keyboard needed.",
+                "The PIN pad appears directly in the main window when the keyboard is locked.",
+                "Set a PIN in **Settings** to change or remove it at any time."
             ]
         }
     }

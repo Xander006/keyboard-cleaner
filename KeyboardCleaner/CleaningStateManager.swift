@@ -69,7 +69,6 @@ enum FullScreenCoverage: String, CaseIterable, Identifiable {
 enum PreferredUnlockMethod {
     case touchID
     case pin
-    case password
 }
 
 enum CleaningPreset: String, CaseIterable, Identifiable {
@@ -146,9 +145,6 @@ final class CleaningStateManager: ObservableObject {
     @Published var isAccessibilityAuthorized = false
     @Published var elapsedSeconds = 0
     @Published var lockFailureMessage: String?
-
-    // Password fallback — shown after first Touch ID failure
-    @Published var showPasswordFallback = false
 
     // Settings
     @Published var autoUnlockTimeout: AutoUnlockTimeout
@@ -368,7 +364,6 @@ final class CleaningStateManager: ObservableObject {
 
     func unlockWithVerifiedPIN() {
         authState = .success
-        showPasswordFallback = false
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 500_000_000)
             stopCleaning()
@@ -423,8 +418,7 @@ final class CleaningStateManager: ObservableObject {
 
     var preferredUnlockMethod: PreferredUnlockMethod {
         if hasTouchID { return .touchID }
-        if pinEnabled { return .pin }
-        return .password
+        return .pin
     }
 
     var currentPreset: CleaningPreset? {
@@ -436,14 +430,10 @@ final class CleaningStateManager: ObservableObject {
         }
     }
 
-    var isEventTapInstalled: Bool {
-        eventTap != nil
-    }
-
     var diagnosticsItems: [(label: String, value: String)] {
         [
             ("Accessibility", isAccessibilityAuthorized ? "Granted" : "Missing"),
-            ("Event Tap", isEventTapInstalled ? "Installed" : "Inactive"),
+            ("Keyboard Blocking", isLocked ? "Active" : (isAccessibilityAuthorized ? "Ready" : "Unavailable")),
             ("Unlock Method", diagnosticsUnlockMethodLabel),
             ("Overlay Style", overlayStyle.label),
             ("Display Target", fullScreenCoverage.label),
@@ -464,7 +454,6 @@ final class CleaningStateManager: ObservableObject {
         switch preferredUnlockMethod {
         case .touchID: return pinEnabled ? "Touch ID + PIN" : "Touch ID"
         case .pin: return "PIN"
-        case .password: return "Password"
         }
     }
 
@@ -477,7 +466,6 @@ final class CleaningStateManager: ObservableObject {
 
         isLocked = true
         authState = .idle
-        showPasswordFallback = false
         lockFailureMessage = nil
         elapsedSeconds = 0
         hasCompletedLockTest = true
@@ -511,36 +499,27 @@ final class CleaningStateManager: ObservableObject {
 
     // MARK: - Authenticate to Unlock
 
-    /// Primary unlock method. Uses Touch ID (biometrics) by default.
-    /// - Parameter usePassword: When true, skips biometrics and goes straight to the system password dialog.
-    func authenticateToUnlock(usePassword: Bool = false, completion: @escaping (Bool) -> Void) {
+    func authenticateToUnlock(completion: @escaping (Bool) -> Void) {
         guard authState != .authenticating else { return }
         authState = .authenticating
 
         let context = LAContext()
         var error: NSError?
-        let policy: LAPolicy
-        if usePassword {
-            policy = .deviceOwnerAuthentication
-        } else {
-            policy = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-                ? .deviceOwnerAuthenticationWithBiometrics
-                : .deviceOwnerAuthentication
-        }
+        let policy: LAPolicy = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            ? .deviceOwnerAuthenticationWithBiometrics
+            : .deviceOwnerAuthentication
 
         context.evaluatePolicy(policy, localizedReason: "Unlock your keyboard after cleaning") { [weak self] success, error in
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 if success {
                     self.authState = .success
-                    self.showPasswordFallback = false
                     try? await Task.sleep(nanoseconds: 500_000_000)
                     self.stopCleaning()
                     completion(true)
                 } else {
                     if let error { self.logger.error("Authentication failed: \(error.localizedDescription)") }
                     self.authState = .failed
-                    self.showPasswordFallback = true  // reveal password fallback after first failure
                     try? await Task.sleep(nanoseconds: 1_200_000_000)
                     if self.authState == .failed { self.authState = .idle }
                     completion(false)
@@ -554,7 +533,6 @@ final class CleaningStateManager: ObservableObject {
     private func stopCleaning() {
         isLocked = false
         authState = .idle
-        showPasswordFallback = false
         stopTimer()
         removeEventTap()
         playSound("Glass")
