@@ -871,8 +871,13 @@ private struct LockedView: View {
                         .animation(.easeInOut(duration: 0.2), value: cleaningState.authState)
 
                     if cleaningState.authState == .idle || cleaningState.authState == .failed {
-                        TimerDisplay(cleaningState: cleaningState)
-                            .padding(.top, 4)
+                        if cleaningState.autoUnlockTimeout != .never {
+                            CountdownRingView(cleaningState: cleaningState)
+                                .padding(.top, 4)
+                        } else {
+                            OverlayElapsedView(cleaningState: cleaningState)
+                                .padding(.top, 4)
+                        }
                     }
                 }
                 .padding(.horizontal, 26)
@@ -1341,42 +1346,6 @@ private struct GlassCircle<Content: View>: View {
                 .shadow(color: .black.opacity(0.09), radius: diameter * 0.16, y: diameter * 0.05)
 
             content
-        }
-    }
-}
-
-// MARK: - Timer Display
-
-private struct TimerDisplay: View {
-    @ObservedObject var cleaningState: CleaningStateManager
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Label {
-                Text(cleaningState.elapsedTimeString)
-                    .font(.system(size: 12, weight: .medium, design: .rounded).monospacedDigit())
-                    .foregroundStyle(.secondary)
-            } icon: {
-                Image(systemName: "clock")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.tertiary)
-                    .accessibilityHidden(true)
-            }
-            .accessibilityLabel(AppStrings.lockedFor(cleaningState.elapsedTimeString))
-
-            if let remaining = cleaningState.remainingTimeString {
-                Label {
-                    Text(remaining)
-                        .font(.system(size: 12, weight: .medium, design: .rounded).monospacedDigit())
-                        .foregroundStyle(.secondary)
-                } icon: {
-                    Image(systemName: "timer")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.tertiary)
-                        .accessibilityHidden(true)
-                }
-                .accessibilityLabel(AppStrings.autoUnlockIn(remaining))
-            }
         }
     }
 }
