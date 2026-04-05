@@ -1111,24 +1111,23 @@ private struct UnlockButton: View {
                     removal:   .scale(scale: 0.9).combined(with: .opacity)
                 ))
 
-                // Fallback row: PIN (always shown if set) + password (after failure)
-                HStack(spacing: 10) {
-                    if cleaningState.pinEnabled {
-                        FallbackPill(label: "Use PIN") {
-                            withAnimation(.spring(response: 0.3)) {
-                                pinEntry = ""
-                                pinFailed = false
-                                showPINPad = true
+                // Fallback row: always visible so there's always an alternative path
+                if cleaningState.authState != .authenticating {
+                    HStack(spacing: 10) {
+                        if cleaningState.pinEnabled {
+                            FallbackPill(label: "Use PIN") {
+                                withAnimation(.spring(response: 0.3)) {
+                                    pinEntry = ""
+                                    pinFailed = false
+                                    showPINPad = true
+                                }
                             }
                         }
-                    }
-                    if cleaningState.showPasswordFallback && cleaningState.authState != .authenticating {
                         FallbackPill(label: "Use Password") {
                             cleaningState.authenticateToUnlock(usePassword: true) { success in
                                 if !success { onFailure() }
                             }
                         }
-                        .transition(.scale(scale: 0.9).combined(with: .opacity))
                     }
                 }
             }
@@ -1245,8 +1244,12 @@ struct MinimalOverlayView: View {
     @State private var pinFailed = false
     @State private var pinLockoutMessage: String? = nil
 
+    // Show PIN pad when a PIN is set — serves as fallback to Touch ID (main window)
+    // or primary unlock when no Touch ID is available.
+    private var showPINSection: Bool { cleaningState.pinEnabled }
+
     var body: some View {
-        VStack(spacing: cleaningState.preferredUnlockMethod == .pin ? 14 : 0) {
+        VStack(spacing: showPINSection ? 14 : 0) {
             HStack(spacing: 14) {
                 GlassCircle(diameter: 34) {
                     Image(systemName: "lock.fill")
@@ -1270,31 +1273,9 @@ struct MinimalOverlayView: View {
                 .accessibilityLabel(AppStrings.keyboardLocked(subtitleText))
 
                 Spacer()
-
-                // PIN mode: no button needed — the pad below is the action
-                // Touch ID / password mode: tap to authenticate
-                if cleaningState.preferredUnlockMethod != .pin {
-                    Button {
-                        if cleaningState.preferredUnlockMethod == .password {
-                            cleaningState.authenticateToUnlock(usePassword: true) { _ in }
-                        } else {
-                            cleaningState.authenticateToUnlock { _ in }
-                        }
-                    } label: {
-                        Image(systemName: cleaningState.preferredUnlockMethod == .touchID ? "touchid" : "key.fill")
-                            .font(.system(size: 20, weight: .light))
-                            .foregroundStyle(Design.accentGradient)
-                            .frame(width: 36, height: 36)
-                            .background(Circle().fill(.thinMaterial))
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(cleaningState.preferredUnlockMethod == .touchID ? "Unlock with Touch ID" : "Unlock with Password")
-                    .accessibilityHint("Authenticate to unlock the keyboard")
-                    .keyboardShortcut(.defaultAction)
-                }
             }
 
-            if cleaningState.preferredUnlockMethod == .pin {
+            if showPINSection {
                 PINPadView(
                     entry: $pinEntry,
                     onComplete: submitPIN,
@@ -1309,21 +1290,17 @@ struct MinimalOverlayView: View {
             }
         }
         .padding(.horizontal, 18)
-        .padding(.vertical, cleaningState.preferredUnlockMethod == .pin ? 14 : 0)
-        .frame(width: 280, height: cleaningState.preferredUnlockMethod == .pin ? 300 : 78)
+        .padding(.vertical, showPINSection ? 14 : 0)
+        .frame(width: 280, height: showPINSection ? 300 : 78)
         .background(GlassPanelBackground(cornerRadius: 20))
         .accessibilityElement(children: .contain)
     }
 
     private var subtitleText: String {
-        switch cleaningState.preferredUnlockMethod {
-        case .touchID:
-            return cleaningState.elapsedTimeString
-        case .pin:
+        if showPINSection {
             return pinFailed ? "Incorrect PIN. Try again." : "Enter PIN to unlock"
-        case .password:
-            return "Use your Mac password"
         }
+        return cleaningState.elapsedTimeString
     }
 
     private func submitPIN() {
