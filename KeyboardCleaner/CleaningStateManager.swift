@@ -11,7 +11,6 @@ import os.log
 // MARK: - Notification Names
 
 extension Notification.Name {
-    static let menuBarOnlyChanged = Notification.Name("menuBarOnlyChanged")
     static let openSettingsRequested = Notification.Name("openSettingsRequested")
     static let openDiagnosticsRequested = Notification.Name("openDiagnosticsRequested")
     static let openHelpRequested = Notification.Name("openHelpRequested")
@@ -156,7 +155,6 @@ final class CleaningStateManager: ObservableObject {
     @Published var overlayStyle: OverlayStyle
     @Published var fullScreenCoverage: FullScreenCoverage
     @Published var soundEnabled: Bool
-    @Published var menuBarOnly: Bool
     @Published var hasCompletedLockTest: Bool
 
     // PIN code unlock (mouse-clickable numpad, no keyboard needed)
@@ -200,7 +198,6 @@ final class CleaningStateManager: ObservableObject {
         // Register defaults so bool(forKey:) returns the right default on first launch
         UserDefaults.standard.register(defaults: [
             "soundEnabled":      true,
-            "menuBarOnly":       false,
             "autoUnlockTimeout": AutoUnlockTimeout.fiveMinutes.rawValue,
             "fullScreenCoverage": FullScreenCoverage.allDisplays.rawValue,
             "hasCompletedLockTest": false,
@@ -209,7 +206,6 @@ final class CleaningStateManager: ObservableObject {
         overlayStyle      = OverlayStyle(rawValue: UserDefaults.standard.string(forKey: "overlayStyle") ?? "") ?? .full
         fullScreenCoverage = FullScreenCoverage(rawValue: UserDefaults.standard.string(forKey: "fullScreenCoverage") ?? "") ?? .allDisplays
         soundEnabled      = UserDefaults.standard.bool(forKey: "soundEnabled")
-        menuBarOnly       = UserDefaults.standard.bool(forKey: "menuBarOnly")
         autoUnlockTimeout = AutoUnlockTimeout(rawValue: UserDefaults.standard.integer(forKey: "autoUnlockTimeout")) ?? .fiveMinutes
         // Migrate any PIN that was stored in Keychain back to UserDefaults
         if let keychainPin = PinKeychainStore.loadPin(), !keychainPin.isEmpty {
@@ -232,13 +228,6 @@ final class CleaningStateManager: ObservableObject {
 
         $fullScreenCoverage.dropFirst()
             .sink { UserDefaults.standard.set($0.rawValue, forKey: "fullScreenCoverage") }
-            .store(in: &settingsCancellables)
-
-        $menuBarOnly.dropFirst()
-            .sink { enabled in
-                UserDefaults.standard.set(enabled, forKey: "menuBarOnly")
-                NotificationCenter.default.post(name: .menuBarOnlyChanged, object: enabled)
-            }
             .store(in: &settingsCancellables)
 
         $autoUnlockTimeout.dropFirst()
@@ -459,7 +448,6 @@ final class CleaningStateManager: ObservableObject {
             ("Overlay Style", overlayStyle.label),
             ("Display Target", fullScreenCoverage.label),
             ("Auto Unlock", autoUnlockTimeout.label),
-            ("Menu Bar Only", menuBarOnly ? "On" : "Off"),
             ("Sound", soundEnabled ? "On" : "Off"),
             ("Lock Test", hasCompletedLockTest ? "Completed" : "Pending")
         ]

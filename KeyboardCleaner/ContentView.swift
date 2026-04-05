@@ -106,12 +106,6 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .openHelpRequested)) { _ in
             showHelp = true
         }
-        .onReceive(NotificationCenter.default.publisher(for: .menuBarOnlyChanged)) { notification in
-            guard let enabled = notification.object as? Bool, enabled else { return }
-            showSettings = false
-            showDiagnostics = false
-            showHelp = false
-        }
         .alert(
             "Unable to Lock Keyboard",
             isPresented: Binding(
@@ -297,8 +291,8 @@ private struct IdleView: View {
         VStack(spacing: 0) {
             Spacer().frame(height: 24)
 
-            // Icon + title
-            VStack(spacing: 16) {
+            // Icon + subtitle
+            VStack(spacing: 14) {
                 GlassCircle(diameter: 88) {
                     Image(systemName: "keyboard")
                         .font(.system(size: 34, weight: .light))
@@ -307,18 +301,10 @@ private struct IdleView: View {
                 }
                 .accessibilityHidden(true)
 
-                VStack(spacing: 8) {
-                    Text("Keyboard Cleaner")
-                        .font(.system(size: 28, weight: .bold))
-                        .tracking(-0.6)
-                        .foregroundStyle(.primary)
-                        .accessibilityAddTraits(.isHeader)
-
-                    Text("A quiet way to lock the keyboard while you clean.")
-                        .font(.system(size: 14))
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                }
+                Text("A quiet way to lock the keyboard while you clean.")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             }
             .padding(.bottom, 24)
             .accessibilitySortPriority(4)
@@ -1618,9 +1604,6 @@ struct MenuBarView: View {
         Divider()
 
         Menu("Open") {
-            if cleaningState.menuBarOnly {
-                Button("Show Window") { showWindow() }
-            }
             Button("Settings…")    { showWindow(then: .openSettingsRequested) }
             Button("Diagnostics…") { showWindow(then: .openDiagnosticsRequested) }
             Button("Help…")        { showWindow(then: .openHelpRequested) }
@@ -1631,7 +1614,6 @@ struct MenuBarView: View {
     }
 
     private func showWindow(then name: Notification.Name? = nil) {
-        cleaningState.menuBarOnly = false
         if let name {
             NotificationCenter.default.post(name: name, object: nil)
         }
@@ -2152,19 +2134,6 @@ private struct SettingsSheet: View {
                     }
 
                     SettingsRow(
-                        icon: "menubar.rectangle",
-                        iconTint: Design.accentStart,
-                        title: "Menu Bar Only",
-                        subtitle: "Hide the main window, run from menu bar"
-                    ) {
-                        Toggle("Menu Bar Only", isOn: $cleaningState.menuBarOnly)
-                            .labelsHidden()
-                            .accessibilityLabel("Menu Bar Only")
-                            .accessibilityHint("Hide the main window and keep Keyboard Cleaner in the menu bar")
-                            .tint(Design.accentStart)
-                    }
-
-                    SettingsRow(
                         icon: "circle.grid.3x3.fill",
                         iconTint: Color(red: 0.30, green: 0.65, blue: 0.90),
                         title: "PIN Code",
@@ -2257,33 +2226,56 @@ private struct HelpSheet: View {
         VStack(spacing: 0) {
             SheetHeaderView(
                 title: "Help",
-                subtitle: "How to lock, unlock, and troubleshoot Keyboard Cleaner."
+                subtitle: "How to lock, unlock, and configure Keyboard Cleaner."
             ) { EmptyView() }
 
-            List {
-                helpSectionList(title: "Start a Cleaning Session", items: [
-                    "Click `Lock Keyboard` from the main window or menu bar.",
-                    "You can also press `Control` + `Command` + `L` to lock from anywhere.",
-                    "A successful lock blocks all keystrokes before they reach other apps."
-                ])
+            ZStack {
+                AquaBackgroundView()
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 20) {
+                        HelpCard(
+                            icon: "lock.fill",
+                            iconTint: Design.accentStart,
+                            title: "Start a Cleaning Session",
+                            items: [
+                                "Click **Lock Keyboard** in the main window or choose it from the menu bar icon.",
+                                "Press **⌃⌘L** (Control + Command + L) to lock from anywhere on your Mac.",
+                                "Once locked, all keystrokes are blocked before they reach any other app."
+                            ]
+                        )
 
-                helpSectionList(title: "Unlock Safely", items: unlockHelpItems)
+                        HelpCard(
+                            icon: cleaningState.hasTouchID ? "touchid" : "circle.grid.3x3.fill",
+                            iconTint: Design.accentEnd,
+                            title: "Unlock Safely",
+                            items: unlockHelpItems
+                        )
 
-                helpSectionList(title: "Useful Settings", items: [
-                    "Use `Overlay` to choose between a full-screen lock view and a compact floating view.",
-                    "Use `Auto-unlock` when you want the session to end automatically after a short cleaning pass.",
-                    "If your Mac has no Touch ID, set a PIN in Settings so you always have a mouse-only unlock path."
-                ])
+                        HelpCard(
+                            icon: "slider.horizontal.3",
+                            iconTint: Color(red: 0.60, green: 0.40, blue: 0.90),
+                            title: "Useful Settings",
+                            items: [
+                                "**Overlay** — choose a full-screen lock view or a compact floating panel.",
+                                "**Auto-unlock** — end the session automatically after a set time.",
+                                "**PIN Code** — set a mouse-only unlock path, useful as a Touch ID fallback."
+                            ]
+                        )
 
-                helpSectionList(title: "Troubleshooting", items: [
-                    "If the app cannot lock the keyboard, confirm Accessibility access is granted in System Settings.",
-                    "Open `Diagnostics` from Settings or the menu bar to check permission, event-tap, and unlock state.",
-                    "If permission changes are not detected immediately, relaunch the app and try a quick lock test."
-                ])
+                        HelpCard(
+                            icon: "wrench.and.screwdriver.fill",
+                            iconTint: Color(red: 0.90, green: 0.55, blue: 0.20),
+                            title: "Troubleshooting",
+                            items: [
+                                "If the keyboard won't lock, confirm Accessibility access is granted in **System Settings → Privacy**.",
+                                "Open **Diagnostics** from Settings to inspect permission, event-tap, and unlock state.",
+                                "If changes aren't detected, relaunch the app and run a quick lock test."
+                            ]
+                        )
+                    }
+                    .padding(20)
+                }
             }
-            .listStyle(.inset(alternatesRowBackgrounds: false))
-            .scrollContentBackground(.hidden)
-            .background(AquaBackgroundView())
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(width: 500, height: 580)
@@ -2295,46 +2287,81 @@ private struct HelpSheet: View {
         case .touchID:
             if cleaningState.pinEnabled {
                 return [
-                    "Touch ID is the primary unlock path.",
-                    "If needed, you can switch to the on-screen PIN pad as a fallback.",
-                    "After a failed biometric attempt, password fallback can also appear."
+                    "**Touch ID** is the primary unlock path — place your finger on the sensor.",
+                    "Switch to the **PIN pad** from the overlay or main window as a fallback.",
+                    "Use **Password** (always visible) if both Touch ID and PIN are unavailable."
                 ]
             }
             return [
-                "Touch ID is the primary unlock path.",
-                "If biometric authentication fails, the app can fall back to your Mac password.",
-                "The physical Touch ID key may still trigger the macOS lock screen on some Macs."
+                "**Touch ID** is the primary unlock path — place your finger on the sensor.",
+                "Use **Password** (always visible in the unlock panel) as a fallback.",
+                "The physical Touch ID key may trigger the macOS lock screen on some Macs."
             ]
         case .pin:
             return [
-                "Unlock from the on-screen PIN pad using your mouse.",
-                "PIN unlock is useful on Macs without Touch ID or when keyboard input is intentionally blocked.",
-                "If PIN entry fails, clear the digits and try again carefully."
+                "Click digits on the **PIN pad** with your mouse to unlock.",
+                "The PIN pad is available directly in both the main window and the minimal overlay.",
+                "Use **Password** as a fallback if you forget your PIN."
             ]
         case .password:
             return [
-                "Unlock with your Mac password when biometric or PIN unlock is not available.",
-                "The password prompt comes from macOS authentication and does not type into other apps.",
-                "If you want a mouse-only unlock path, set a PIN in Settings."
+                "Use your **Mac password** via the unlock button in the main window.",
+                "The password prompt is handled by macOS and never types into other apps.",
+                "Set a **PIN** in Settings for a mouse-only fallback that doesn't require a password."
             ]
         }
     }
+}
 
-    @ViewBuilder
-    private func helpSectionList(title: String, items: [String]) -> some View {
-        Section(title) {
-            ForEach(items, id: \.self) { item in
-                HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Design.accentEnd)
-                        .accessibilityHidden(true)
-                    Text(item)
-                        .fixedSize(horizontal: false, vertical: true)
+private struct HelpCard: View {
+    let icon: String
+    let iconTint: Color
+    let title: String
+    let items: [String]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            // Section header
+            HStack(spacing: 10) {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(iconTint.opacity(0.15))
+                    .frame(width: 30, height: 30)
+                    .overlay(
+                        Image(systemName: icon)
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(iconTint)
+                    )
+                    .accessibilityHidden(true)
+                Text(title)
+                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.primary)
+            }
+
+            // Items card
+            InsetGroup(spacing: 0) {
+                ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                    HStack(alignment: .top, spacing: 10) {
+                        Circle()
+                            .fill(iconTint.opacity(0.7))
+                            .frame(width: 5, height: 5)
+                            .padding(.top, 6)
+                            .accessibilityHidden(true)
+                        Text(LocalizedStringKey(item))
+                            .font(.system(size: 13))
+                            .foregroundStyle(.primary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .accessibilityElement(children: .combine)
+
+                    if index < items.count - 1 {
+                        InsetDivider()
+                    }
                 }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(item)
             }
         }
+        .accessibilityElement(children: .contain)
     }
 }
 

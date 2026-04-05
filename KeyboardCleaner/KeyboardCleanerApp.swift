@@ -19,7 +19,6 @@ struct KeyboardCleanerApp: App {
             CommandGroup(after: .appInfo) {
                 Divider()
                 Button("Keyboard Cleaner Help") {
-                    NotificationCenter.default.post(name: .menuBarOnlyChanged, object: false)
                     NotificationCenter.default.post(name: .openHelpRequested, object: nil)
                 }
                 .keyboardShortcut("/", modifiers: [.command, .shift])
@@ -64,34 +63,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             contentView.layer?.masksToBounds = true
         }
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleMenuBarOnlyChanged(_:)),
-            name: .menuBarOnlyChanged,
-            object: nil
-        )
-
-        // If the app launched in menu bar-only mode, hide the window immediately
-        if UserDefaults.standard.bool(forKey: "menuBarOnly") {
-            window.orderOut(nil)
-        }
-    }
-
-    @objc private func handleMenuBarOnlyChanged(_ notification: Notification) {
-        guard let enabled = notification.object as? Bool else { return }
-        if enabled {
-            if let sheet = mainWindow?.attachedSheet {
-                mainWindow?.endSheet(sheet)
-            }
-            mainWindow?.orderOut(nil)
-        } else {
-            mainWindow?.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        // When menu bar-only mode is on, closing the window should not quit the app.
-        return !UserDefaults.standard.bool(forKey: "menuBarOnly")
+        return true
     }
 }
