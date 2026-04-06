@@ -8,15 +8,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent-start: #7B5CFA;
-      --accent-end:   #A78BFA;
-      --accent-grad:  linear-gradient(135deg, #7B5CFA, #A78BFA);
-      --bg:           #0b0b0f;
-      --surface:      #13131a;
-      --surface2:     #1c1c28;
+      --accent-start: #38CCA3;
+      --accent-end:   #1499CC;
+      --accent-grad:  linear-gradient(135deg, #38CCA3, #1499CC);
+      --bg:           #0b0f0e;
+      --surface:      #111918;
+      --surface2:     #182320;
       --border:       rgba(255,255,255,0.07);
-      --text:         #f0f0f5;
-      --muted:        rgba(240,240,245,0.5);
+      --text:         #f0f5f4;
+      --muted:        rgba(240,245,244,0.5);
       --radius:       20px;
     }
 
@@ -101,7 +101,7 @@
     .btn-primary {
       background: var(--accent-grad);
       color: #fff;
-      box-shadow: 0 8px 28px rgba(123,92,250,0.35);
+      box-shadow: 0 8px 28px rgba(56,204,163,0.28);
     }
 
     .btn-ghost {
@@ -130,7 +130,7 @@
       transform: translateX(-50%);
       width: 700px;
       height: 500px;
-      background: radial-gradient(ellipse, rgba(123,92,250,0.18) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(56,204,163,0.15) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -140,8 +140,8 @@
       gap: 7px;
       padding: 6px 14px;
       border-radius: 100px;
-      background: rgba(123,92,250,0.12);
-      border: 1px solid rgba(123,92,250,0.3);
+      background: rgba(56,204,163,0.12);
+      border: 1px solid rgba(56,204,163,0.25);
       font-size: 12px;
       font-weight: 600;
       color: var(--accent-end);
@@ -332,7 +332,7 @@
       font-weight: 700;
       letter-spacing: -0.2px;
       cursor: default;
-      box-shadow: 0 6px 24px rgba(123,92,250,0.35);
+      box-shadow: 0 6px 24px rgba(56,204,163,0.28);
     }
 
     /* ── SECTION COMMON ── */
@@ -386,7 +386,7 @@
       transition: border-color 0.2s;
     }
 
-    .step-card:hover { border-color: rgba(123,92,250,0.35); }
+    .step-card:hover { border-color: rgba(56,204,163,0.28); }
 
     .step-number {
       width: 38px; height: 38px;
@@ -397,7 +397,7 @@
       font-weight: 800;
       color: #fff;
       margin-bottom: 20px;
-      box-shadow: 0 4px 16px rgba(123,92,250,0.35);
+      box-shadow: 0 4px 16px rgba(56,204,163,0.28);
     }
 
     .step-card h3 {
@@ -430,7 +430,7 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(123,92,250,0.3);
+      border-color: rgba(56,204,163,0.25);
       transform: translateY(-2px);
     }
 
@@ -456,12 +456,12 @@
     }
 
     /* feature icon tints */
-    .tint-purple { background: rgba(123,92,250,0.14); }
-    .tint-blue   { background: rgba(59,130,246,0.14); }
-    .tint-green  { background: rgba(34,197,94,0.14);  }
-    .tint-orange { background: rgba(249,115,22,0.14); }
-    .tint-pink   { background: rgba(236,72,153,0.14); }
-    .tint-teal   { background: rgba(20,184,166,0.14); }
+    .tint-purple { background: rgba(56,204,163,0.13); }
+    .tint-blue   { background: rgba(20,153,204,0.13); }
+    .tint-green  { background: rgba(56,204,163,0.13); }
+    .tint-orange { background: rgba(20,153,204,0.13); }
+    .tint-pink   { background: rgba(56,204,163,0.13); }
+    .tint-teal   { background: rgba(20,153,204,0.13); }
 
     /* ── DIVIDER ── */
     .divider {
@@ -495,7 +495,7 @@
       transform: translateX(-50%);
       width: 400px;
       height: 250px;
-      background: radial-gradient(ellipse, rgba(123,92,250,0.2) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(56,204,163,0.16) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -626,8 +626,8 @@
           <svg viewBox="0 0 160 160">
             <defs>
               <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%"   stop-color="#7B5CFA"/>
-                <stop offset="100%" stop-color="#A78BFA"/>
+                <stop offset="0%"   stop-color="#38CCA3"/>
+                <stop offset="100%" stop-color="#1499CC"/>
               </linearGradient>
             </defs>
             <circle class="ring-track"    cx="80" cy="80" r="65"/>
