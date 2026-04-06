@@ -89,7 +89,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsSheet(cleaningState: cleaningState)
+            SettingsSheet(cleaningState: cleaningState, hasSeenOnboarding: $hasSeenOnboarding)
         }
         .sheet(isPresented: $showDiagnostics) {
             DiagnosticsSheet(cleaningState: cleaningState)
@@ -338,8 +338,6 @@ private struct IdleView: View {
 
             InsetGroup(spacing: 0) {
                 AutoUnlockPickerRow(cleaningState: cleaningState)
-                InsetDivider()
-                OverlayStyleRow(cleaningState: cleaningState)
             }
             .padding(.horizontal, 32)
             .accessibilitySortPriority(2)
@@ -564,39 +562,6 @@ private struct AutoUnlockPickerRow: View {
             .frame(width: 210)
             .accessibilityLabel("Auto-unlock timeout")
             .accessibilityHint("Set a duration after which the keyboard unlocks automatically")
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 13)
-    }
-}
-
-// MARK: - Overlay Style Row
-
-private struct OverlayStyleRow: View {
-    @ObservedObject var cleaningState: CleaningStateManager
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: "rectangle.on.rectangle")
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(.secondary)
-                .accessibilityHidden(true)
-
-            Text("Overlay")
-                .font(.system(size: 13, weight: .medium, design: .rounded))
-                .foregroundStyle(.secondary)
-                .accessibilityHidden(true)
-
-            Spacer()
-
-            GlassSegmentedControl(
-                options: OverlayStyle.allCases,
-                label: \.label,
-                selection: $cleaningState.overlayStyle
-            )
-            .frame(width: 210)
-            .accessibilityLabel("Overlay style")
-            .accessibilityHint("Full Screen covers all displays; Minimal shows only a small floating button")
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 13)
@@ -1932,6 +1897,7 @@ private struct OnboardingPage: View {
 
 private struct SettingsSheet: View {
     @ObservedObject var cleaningState: CleaningStateManager
+    @Binding var hasSeenOnboarding: Bool
     @State private var showPINSetup  = false
     @State private var showDiagnostics  = false
 
@@ -2011,12 +1977,25 @@ private struct SettingsSheet: View {
 
                 Section("Cleaning Session") {
                     AutoUnlockPickerRow(cleaningState: cleaningState)
-                    OverlayStyleRow(cleaningState: cleaningState)
                     FullScreenCoverageRow(cleaningState: cleaningState)
                 }
 
                 Section("Presets") {
                     PresetRow(cleaningState: cleaningState)
+                }
+
+                Section("Advanced") {
+                    SettingsRow(
+                        icon: "arrow.counterclockwise",
+                        iconTint: Color.secondary,
+                        title: "Reset Onboarding",
+                        subtitle: "Show the intro screens again on next launch"
+                    ) {
+                        Button("Reset") { hasSeenOnboarding = false }
+                            .buttonStyle(.plain)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
             .listStyle(.inset(alternatesRowBackgrounds: false))
