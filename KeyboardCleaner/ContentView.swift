@@ -175,7 +175,7 @@ private struct AccessibilityPermissionView: View {
             InsetGroup(spacing: 0) {
                 PermissionStepRow(number: "1", text: "Open System Settings")
                 PermissionStepRow(number: "2", text: "Privacy & Security → Accessibility")
-                PermissionStepRow(number: "3", text: "Enable Keyboard Cleaner")
+                PermissionStepRow(number: "3", text: "Toggle on Keyboard Cleaner — or tap + to add it if it's not listed")
             }
             .padding(.horizontal, 32)
             .padding(.bottom, 18)
