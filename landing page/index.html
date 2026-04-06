@@ -11,8 +11,8 @@
       --accent-start: #38CCA3;
       --accent-end:   #1499CC;
       --accent-grad:  linear-gradient(135deg, #38CCA3, #1499CC);
-      --bg:           #121214;
-      --surface:      #1a1a1e;
+      --bg:           #121213;
+      --surface:      #1a1a1f;
       --surface2:     #222228;
       --border:       rgba(255,255,255,0.07);
       --text:         #f2f2f5;
@@ -24,11 +24,51 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
-      background: var(--bg);
+      background: linear-gradient(135deg, #121213 0%, #1c1c21 100%);
+      min-height: 100vh;
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
     }
+
+    /* Ambient blobs — mirrors the app's AquaBackgroundView */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(80px);
+      z-index: 0;
+    }
+
+    body::before {
+      width: 600px; height: 420px;
+      background: radial-gradient(ellipse, rgba(46,189,158,0.13) 0%, transparent 70%);
+      top: 5%; left: -8%;
+      animation: blob1 14s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      width: 500px; height: 360px;
+      background: radial-gradient(ellipse, rgba(20,153,204,0.10) 0%, transparent 70%);
+      bottom: 10%; right: -6%;
+      animation: blob2 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes blob1 {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(40px, 30px); }
+    }
+
+    @keyframes blob2 {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(-30px, -40px); }
+    }
+
+    /* Ensure content sits above blobs */
+    nav, section, footer, .hero { position: relative; z-index: 1; }
 
     /* ── NAV ── */
     nav {
@@ -123,16 +163,7 @@
       overflow: hidden;
     }
 
-    .hero-glow {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 700px;
-      height: 500px;
-      background: radial-gradient(ellipse, rgba(56,204,163,0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .hero-glow { display: none; }
 
     .hero-badge {
       display: inline-flex;
