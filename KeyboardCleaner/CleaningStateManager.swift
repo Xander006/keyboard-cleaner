@@ -236,7 +236,8 @@ final class CleaningStateManager: ObservableObject {
 
         checkAccessibilityAuthorization()
 
-        setupHotkey()
+        setupLocalHotkey()
+        if isAccessibilityAuthorized { setupGlobalHotkey() }
 
         appActiveCancellable = NotificationCenter.default
             .publisher(for: NSApplication.didBecomeActiveNotification)
@@ -278,6 +279,7 @@ final class CleaningStateManager: ObservableObject {
                 self.checkAccessibilityAuthorization()
                 if self.isAccessibilityAuthorized {
                     self.accessibilityPollCancellable?.cancel()
+                    self.setupGlobalHotkey()
                 }
             }
     }
@@ -303,22 +305,9 @@ final class CleaningStateManager: ObservableObject {
 
     // MARK: - Global Hotkey (⌃⌘L)
 
-    private func setupHotkey() {
-        // keyCode 37 = L key on all keyboard layouts
-        let lockKeyCode: UInt16 = 37
-
-        // Monitor when other apps are focused
-        globalHotkeyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            guard event.keyCode == lockKeyCode,
-                  event.modifierFlags.intersection([.command, .control]) == [.command, .control]
-            else { return }
-            Task { @MainActor [weak self] in
-                guard let self, !self.isLocked else { return }
-                self.startCleaning()
-            }
-        }
-
-        // Monitor when our own app is focused — return nil to consume the event
+    private func setupLocalHotkey() {
+        let lockKeyCode: UInt16 = 37 // L key
+        // Monitor when our own app is focused — safe without accessibility permission
         localHotkeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             guard event.keyCode == lockKeyCode,
                   event.modifierFlags.intersection([.command, .control]) == [.command, .control]
@@ -328,6 +317,21 @@ final class CleaningStateManager: ObservableObject {
                 self.startCleaning()
             }
             return nil  // consume so the hotkey doesn't type "l" anywhere
+        }
+    }
+
+    private func setupGlobalHotkey() {
+        guard globalHotkeyMonitor == nil else { return } // already set up
+        let lockKeyCode: UInt16 = 37 // L key
+        // Monitor when other apps are focused — requires accessibility permission
+        globalHotkeyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard event.keyCode == lockKeyCode,
+                  event.modifierFlags.intersection([.command, .control]) == [.command, .control]
+            else { return }
+            Task { @MainActor [weak self] in
+                guard let self, !self.isLocked else { return }
+                self.startCleaning()
+            }
         }
     }
 
