@@ -1,0 +1,235 @@
+/* App name */
+"Keyboard Cleaner" = "Keyboard Cleaner";
+"Keyboard Cleaner Help" = "Aide Keyboard Cleaner";
+
+/* Alerts */
+"Unable to Lock Keyboard" = "Impossible de verrouiller le clavier";
+"Accessibility access is required before the keyboard can be locked." = "L'accès accessibilité est requis avant de pouvoir verrouiller le clavier.";
+"Keyboard lock failed because the system event tap could not be created." = "Le verrouillage a échoué car le système n'a pas pu créer l'event tap.";
+"OK" = "OK";
+
+/* Touch ID prompt */
+"Unlock your keyboard after cleaning" = "Déverrouillez votre clavier après le nettoyage";
+
+/* Menu bar */
+"Keyboard Locked" = "Clavier verrouillé";
+"Lock Keyboard" = "Verrouiller le clavier";
+"Unlock Keyboard…" = "Déverrouiller le clavier…";
+"Locked" = "Verrouillé";
+"Presets" = "Préréglages";
+"Open" = "Ouvrir";
+"Settings…" = "Réglages…";
+"Diagnostics…" = "Diagnostics…";
+"Help…" = "Aide…";
+"Quit Keyboard Cleaner" = "Quitter Keyboard Cleaner";
+
+/* Accessibility permission screen */
+"Accessibility Access Required" = "Accès accessibilité requis";
+"Keyboard Cleaner needs accessibility permission to intercept keyboard input before it reaches other apps." = "Keyboard Cleaner a besoin de la permission Accessibilité pour intercepter les frappes avant qu'elles n'atteignent d'autres apps.";
+"Open System Settings" = "Ouvrir les Réglages Système";
+"Open System Settings to grant accessibility access" = "Ouvrir les Réglages Système pour accorder l'accès accessibilité";
+"I've Granted Access" = "J'ai accordé l'accès";
+"Recheck accessibility permission" = "Revérifier la permission accessibilité";
+"Permission not detected yet." = "Permission non détectée.";
+"Relaunch App" = "Relancer l'app";
+"Privacy & Security → Accessibility" = "Confidentialité et sécurité → Accessibilité";
+"Toggle on Keyboard Cleaner — or tap + to add it if it's not listed" = "Activez Keyboard Cleaner — ou appuyez sur + pour l'ajouter s'il n'est pas listé";
+
+/* Onboarding */
+"Meet Keyboard Cleaner" = "Bienvenue dans Keyboard Cleaner";
+"Lock your keyboard and clean every key safely — no accidental input, no worries." = "Verrouillez votre clavier et nettoyez chaque touche en toute sécurité — aucune saisie accidentelle, aucun souci.";
+"One Tap, Fully Locked" = "Un clic, entièrement verrouillé";
+"Every keystroke is blocked the moment you tap Lock. Wipe as hard as you like." = "Chaque frappe est bloquée dès que vous appuyez sur Verrouiller. Nettoyez sans crainte.";
+"Touch ID to Unlock" = "Touch ID pour déverrouiller";
+"Touch ID, With PIN Backup" = "Touch ID avec code PIN de secours";
+"Touch ID is the primary unlock path, and your PIN stays available as a deliberate fallback." = "Touch ID est la méthode principale de déverrouillage, et votre PIN reste disponible en secours.";
+"When you're done cleaning, Touch ID unlocks everything instantly." = "Une fois le nettoyage terminé, Touch ID déverrouille instantanément.";
+"PIN to Unlock" = "Code PIN pour déverrouiller";
+"No Touch ID? No problem — unlock using the on-screen PIN pad with your mouse, no keyboard needed." = "Pas de Touch ID ? Aucun problème — déverrouillez avec le pavé PIN à l'écran via la souris, sans toucher au clavier.";
+"Continue" = "Continuer";
+"Get Started" = "Commencer";
+"Continue to next page" = "Continuer vers la page suivante";
+
+/* Idle / home screen */
+"A quiet way to lock the keyboard while you clean." = "Un moyen discret de verrouiller le clavier pendant le nettoyage.";
+"Blocks all keystrokes" = "Bloque toutes les frappes";
+"No accidental input while cleaning" = "Aucune saisie accidentelle pendant le nettoyage";
+"Touch ID to unlock" = "Touch ID pour déverrouiller";
+"PIN to unlock" = "Code PIN pour déverrouiller";
+"A deliberate unlock path when you're done" = "Un déverrouillage délibéré une fois terminé";
+"Wipe with confidence" = "Nettoyez en toute confiance";
+"Designed for quick, low-friction cleaning sessions" = "Conçu pour des sessions de nettoyage rapides et sans friction";
+"Run a Quick Lock Test" = "Effectuer un test de verrouillage rapide";
+"Try one short lock now so you know accessibility access is working before you start cleaning." = "Essayez un verrouillage court maintenant pour vérifier que l'accès Accessibilité est actif avant de commencer.";
+"Test" = "Tester";
+"Run a quick lock test" = "Effectuer un test de verrouillage rapide";
+"No Touch ID detected. Open Settings → PIN Code to set up a PIN." = "Touch ID non détecté. Allez dans Réglages → Code PIN pour configurer un PIN.";
+"No Touch ID detected. Open Settings to set up a PIN." = "Touch ID non détecté. Ouvrez les Réglages pour configurer un PIN.";
+"Set Up PIN to Continue" = "Configurer un PIN pour continuer";
+"Lock keyboard for cleaning" = "Verrouiller le clavier pour le nettoyage";
+"Blocks all keyboard input. Unlock when done." = "Bloque toutes les frappes. Déverrouillez une fois terminé.";
+"No Touch ID detected — set a PIN to unlock" = "Touch ID non détecté — configurez un PIN pour déverrouiller";
+"Touch ID or PIN to unlock  ·  ⌃⌘L to lock from anywhere" = "Touch ID ou PIN pour déverrouiller  ·  ⌃⌘L pour verrouiller partout";
+"Touch ID to unlock  ·  ⌃⌘L to lock from anywhere" = "Touch ID pour déverrouiller  ·  ⌃⌘L pour verrouiller partout";
+
+/* Segmented control */
+"Selected" = "Sélectionné";
+"Not selected" = "Non sélectionné";
+
+/* Window accessory bar */
+"Ready to lock" = "Prêt à verrouiller";
+"Open help" = "Ouvrir l'aide";
+"Open help and usage guidance" = "Ouvrir l'aide et le guide d'utilisation";
+"Open settings" = "Ouvrir les réglages";
+"Open cleaning, unlock, and menu bar preferences" = "Ouvrir les préférences de nettoyage, de déverrouillage et de la barre des menus";
+
+/* Locked state */
+"Keyboard is locked" = "Le clavier est verrouillé";
+"Keyboard Locked" = "Clavier verrouillé";
+"All keystrokes are blocked.\nClean your keyboard freely." = "Toutes les frappes sont bloquées.\nNettoyez votre clavier librement.";
+"Place your finger on Touch ID…" = "Posez votre doigt sur Touch ID…";
+"Verifying…" = "Vérification…";
+"Touch ID failed. Try again." = "Touch ID a échoué. Réessayez.";
+"Authentication failed. Try again." = "Authentification incorrecte. Réessayez.";
+"Unlocked successfully!" = "Déverrouillé avec succès !";
+"remaining" = "restant";
+"keyboard locked" = "clavier verrouillé";
+
+/* Unlock button */
+"Unlock with Touch ID" = "Déverrouiller avec Touch ID";
+"Try Again" = "Réessayer";
+"Unlocked" = "Déverrouillé";
+"Uses Touch ID or PIN to unlock the keyboard" = "Utilise Touch ID ou le PIN pour déverrouiller le clavier";
+"Uses Touch ID to unlock the keyboard" = "Utilise Touch ID pour déverrouiller le clavier";
+"Uses PIN to unlock the keyboard" = "Utilise le PIN pour déverrouiller le clavier";
+"Previous attempt failed. Tap to try again." = "Échec de la tentative précédente. Appuyez pour réessayer.";
+"Use PIN" = "Utiliser le PIN";
+"Alternative unlock method" = "Méthode de déverrouillage alternative";
+
+/* PIN pad */
+"Cancel" = "Annuler";
+"Cancel PIN entry" = "Annuler la saisie du PIN";
+"Delete last digit" = "Supprimer le dernier chiffre";
+"Too many attempts. Try again in %ds." = "Trop de tentatives. Réessayez dans %ds.";
+
+/* Touch ID note */
+"Physical Touch ID key may trigger macOS lock screen" = "La touche Touch ID physique peut déclencher le verrouillage de l'écran macOS";
+"Note: physical Touch ID key may trigger macOS lock screen" = "Remarque : la touche Touch ID physique peut déclencher le verrouillage de l'écran macOS";
+
+/* Accessibility hints (non visibles, lues par VoiceOver) */
+"Auto-unlock timeout" = "Délai de déverrouillage auto";
+"Set a duration after which the keyboard unlocks automatically" = "Définir un délai après lequel le clavier se déverrouille automatiquement";
+"Full-screen coverage" = "Couverture plein écran";
+"Choose whether the full-screen overlay covers all displays or only the active display" = "Choisissez si la superposition plein écran couvre tous les écrans ou seulement l'écran actif";
+"Start Keyboard Cleaner automatically when you log in" = "Démarrer Keyboard Cleaner automatiquement à la connexion";
+
+/* Auto-unlock timeouts */
+"Never" = "Jamais";
+"3 min" = "3 min";
+"5 min" = "5 min";
+"10 min" = "10 min";
+
+/* Overlay styles */
+"Full Screen" = "Plein écran";
+"Minimal" = "Minimal";
+
+/* Display coverage */
+"All Displays" = "Tous les écrans";
+"Active Only" = "Écran actif";
+
+/* Presets */
+"Quick Wipe" = "Nettoyage rapide";
+"Focused Desk" = "Bureau concentré";
+"Deep Clean" = "Nettoyage en profondeur";
+"3 min, minimal overlay, sound off" = "3 min, superposition minimale, son désactivé";
+"5 min, full screen, sound on" = "5 min, plein écran, son activé";
+"10 min, full screen, sound on" = "10 min, plein écran, son activé";
+"Apply preset" = "Appliquer le préréglage";
+
+/* Settings */
+"Settings" = "Réglages";
+"Sound Feedback" = "Retour sonore";
+"Play sounds when locking and unlocking" = "Jouer des sons lors du verrouillage et du déverrouillage";
+"Launch at Login" = "Lancer à la connexion";
+"Start automatically when you log in" = "Démarrer automatiquement à la connexion";
+"PIN Code" = "Code PIN";
+"Mouse-clickable numpad unlock" = "Déverrouillage par pavé numérique à la souris";
+"Unlock with a 4-digit PIN (no Touch ID needed)" = "Déverrouiller avec un PIN à 4 chiffres (sans Touch ID)";
+"Change" = "Modifier";
+"Remove" = "Supprimer";
+"Set PIN" = "Définir un PIN";
+"Change PIN code" = "Modifier le code PIN";
+"Remove PIN code" = "Supprimer le code PIN";
+"Cleaning Session" = "Session de nettoyage";
+"Auto-unlock" = "Déverrouillage auto";
+"Display Target" = "Écran cible";
+"Reset Onboarding" = "Réinitialiser l'intro";
+"Show the intro screens again on next launch" = "Réafficher les écrans d'introduction au prochain lancement";
+"Reset" = "Réinitialiser";
+"Advanced" = "Avancé";
+"Done" = "Terminé";
+"Open diagnostics" = "Ouvrir les diagnostics";
+
+/* Diagnostics */
+"Diagnostics" = "Diagnostics";
+"Current state of permissions and app configuration." = "État actuel des permissions et de la configuration.";
+"Accessibility" = "Accessibilité";
+"Keyboard Blocking" = "Blocage clavier";
+"Unlock Method" = "Méthode de déverrouillage";
+"Overlay Style" = "Style de superposition";
+"Auto Unlock" = "Déverrouillage auto";
+"Sound" = "Son";
+"Lock Test" = "Test de verrouillage";
+"Granted" = "Accordé";
+"Missing" = "Manquant";
+"Active" = "Actif";
+"Ready" = "Prêt";
+"Unavailable" = "Indisponible";
+"Completed" = "Effectué";
+"Pending" = "En attente";
+"On" = "Activé";
+"Off" = "Désactivé";
+"Touch ID + PIN" = "Touch ID + PIN";
+"Touch ID" = "Touch ID";
+"PIN" = "PIN";
+
+/* Help */
+"Help" = "Aide";
+"How to lock, unlock, and configure Keyboard Cleaner." = "Comment verrouiller, déverrouiller et configurer Keyboard Cleaner.";
+"Start a Cleaning Session" = "Démarrer une session de nettoyage";
+"Click **Lock Keyboard** in the main window or choose it from the menu bar icon." = "Cliquez sur **Verrouiller le clavier** dans la fenêtre principale ou choisissez-le dans l'icône de la barre des menus.";
+"Press **⌃⌘L** (Control + Command + L) to lock from anywhere on your Mac." = "Appuyez sur **⌃⌘L** (Contrôle + Commande + L) pour verrouiller depuis n'importe où.";
+"Once locked, all keystrokes are blocked before they reach any other app." = "Une fois verrouillé, toutes les frappes sont bloquées avant d'atteindre toute autre app.";
+"Unlock Safely" = "Déverrouiller en sécurité";
+"**Touch ID** is the primary unlock path — place your finger on the sensor." = "**Touch ID** est la méthode principale — posez votre doigt sur le capteur.";
+"If Touch ID fails, tap **Use PIN** to switch to the mouse-clickable PIN pad." = "Si Touch ID échoue, appuyez sur **Utiliser le PIN** pour passer au pavé PIN à la souris.";
+"The physical Touch ID key may trigger the macOS lock screen on some Macs." = "La touche Touch ID physique peut déclencher le verrouillage de l'écran macOS sur certains Mac.";
+"Set a **PIN** in Settings to have a mouse-only fallback if Touch ID isn't working." = "Configurez un **PIN** dans Réglages pour avoir une alternative souris si Touch ID ne fonctionne pas.";
+"Click digits on the **PIN pad** with your mouse — no keyboard needed." = "Cliquez sur les chiffres du **pavé PIN** avec la souris — sans clavier.";
+"The PIN pad appears directly in the main window when the keyboard is locked." = "Le pavé PIN apparaît directement dans la fenêtre principale lorsque le clavier est verrouillé.";
+"Set a PIN in **Settings** to change or remove it at any time." = "Configurez un PIN dans **Réglages** pour le modifier ou le supprimer à tout moment.";
+"Useful Settings" = "Réglages utiles";
+"**Overlay** — choose a full-screen lock view or a compact floating panel." = "**Superposition** — choisissez une vue plein écran ou un panneau flottant compact.";
+"**Auto-unlock** — end the session automatically after a set time." = "**Déverrouillage auto** — termine la session automatiquement après un délai défini.";
+"**PIN Code** — set a mouse-only unlock path, useful as a Touch ID fallback." = "**Code PIN** — définit un déverrouillage souris uniquement, utile en secours de Touch ID.";
+"Troubleshooting" = "Dépannage";
+"If the keyboard won't lock, confirm Accessibility access is granted in **System Settings → Privacy**." = "Si le clavier ne se verrouille pas, vérifiez que l'accès Accessibilité est accordé dans **Réglages Système → Confidentialité**.";
+"Open **Diagnostics** from Settings to inspect permission, event-tap, and unlock state." = "Ouvrez **Diagnostics** depuis Réglages pour inspecter les permissions, l'event tap et l'état de déverrouillage.";
+"If changes aren't detected, relaunch the app and run a quick lock test." = "Si les modifications ne sont pas détectées, relancez l'app et effectuez un test de verrouillage rapide.";
+
+/* PIN setup */
+"Set a PIN Code" = "Définir un code PIN";
+"Confirm PIN" = "Confirmer le PIN";
+"Enter a 4-digit PIN — you'll use it to unlock with your mouse" = "Saisissez un PIN à 4 chiffres — vous l'utiliserez pour déverrouiller avec la souris";
+"Re-enter your PIN to confirm" = "Saisissez à nouveau votre PIN pour confirmer";
+"PINs don't match. Try again." = "Les PIN ne correspondent pas. Réessayez.";
+
+/* Format strings (AppStrings) */
+"Locked for %@" = "Verrouillé depuis %@";
+"Auto-unlock in %@" = "Déverrouillage auto dans %@";
+"Preset: %@" = "Préréglage : %@";
+"Step %@: %@" = "Étape %@ : %@";
+"%@: %@" = "%@ : %@";
+"%d of %d digits entered" = "%d sur %d chiffres saisis";
+"Enter digit %@" = "Saisir le chiffre %@";
+"Keyboard locked. %@" = "Clavier verrouillé. %@";

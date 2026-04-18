@@ -28,10 +28,10 @@ enum AutoUnlockTimeout: Int, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .never:        return "Never"
-        case .threeMinutes: return "3 min"
-        case .fiveMinutes:  return "5 min"
-        case .tenMinutes:   return "10 min"
+        case .never:        return String(localized: "Never")
+        case .threeMinutes: return String(localized: "3 min")
+        case .fiveMinutes:  return String(localized: "5 min")
+        case .tenMinutes:   return String(localized: "10 min")
         }
     }
 }
@@ -46,8 +46,8 @@ enum OverlayStyle: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .full:    return "Full Screen"
-        case .minimal: return "Minimal"
+        case .full:    return String(localized: "Full Screen")
+        case .minimal: return String(localized: "Minimal")
         }
     }
 }
@@ -60,8 +60,8 @@ enum FullScreenCoverage: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .allDisplays:  return "All Displays"
-        case .activeDisplay: return "Active Only"
+        case .allDisplays:  return String(localized: "All Displays")
+        case .activeDisplay: return String(localized: "Active Only")
         }
     }
 }
@@ -80,17 +80,17 @@ enum CleaningPreset: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .quickWipe:  return "Quick Wipe"
-        case .focusedDesk: return "Focused Desk"
-        case .deepClean:  return "Deep Clean"
+        case .quickWipe:  return String(localized: "Quick Wipe")
+        case .focusedDesk: return String(localized: "Focused Desk")
+        case .deepClean:  return String(localized: "Deep Clean")
         }
     }
 
     var summary: String {
         switch self {
-        case .quickWipe:  return "3 min, minimal overlay, sound off"
-        case .focusedDesk: return "5 min, full screen, sound on"
-        case .deepClean:  return "10 min, full screen, sound on"
+        case .quickWipe:  return String(localized: "3 min, minimal overlay, sound off")
+        case .focusedDesk: return String(localized: "5 min, full screen, sound on")
+        case .deepClean:  return String(localized: "10 min, full screen, sound on")
         }
     }
 
@@ -122,6 +122,15 @@ enum CleaningPreset: String, CaseIterable, Identifiable {
         case .focusedDesk, .deepClean: return .allDisplays
         }
     }
+}
+
+// MARK: - Diagnostic Status
+
+enum DiagnosticStatus {
+    case good    // granted / active / on / completed
+    case bad     // missing / unavailable
+    case neutral // ready / off / pending
+    case info    // labels with no pass/fail meaning
 }
 
 // MARK: - Auth State
@@ -270,16 +279,18 @@ final class CleaningStateManager: ObservableObject {
 
     private func startAccessibilityPolling() {
         accessibilityPollCancellable?.cancel()
+        var ticks = 0
         // Use a main-RunLoop timer — more reliable than a Swift Concurrency Task
         // for detecting system permission changes in sandboxed apps.
         accessibilityPollCancellable = Timer.publish(every: 0.5, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self else { return }
+                ticks += 1
                 self.checkAccessibilityAuthorization()
-                if self.isAccessibilityAuthorized {
+                if self.isAccessibilityAuthorized || ticks >= 120 { // 60s timeout
                     self.accessibilityPollCancellable?.cancel()
-                    self.setupGlobalHotkey()
+                    if self.isAccessibilityAuthorized { self.setupGlobalHotkey() }
                 }
             }
     }
@@ -293,11 +304,12 @@ final class CleaningStateManager: ObservableObject {
     }
 
     func relaunch() {
-        // Open a fresh instance then quit this one.
         NSWorkspace.shared.openApplication(
             at: URL(fileURLWithPath: Bundle.main.bundlePath),
             configuration: NSWorkspace.OpenConfiguration()
-        )
+        ) { [weak self] _, error in
+            if let error { self?.logger.error("Relaunch failed: \(error.localizedDescription)") }
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             NSApp.terminate(nil)
         }
@@ -434,16 +446,16 @@ final class CleaningStateManager: ObservableObject {
         }
     }
 
-    var diagnosticsItems: [(label: String, value: String)] {
+    var diagnosticsItems: [(label: String, value: String, status: DiagnosticStatus)] {
         [
-            ("Accessibility", isAccessibilityAuthorized ? "Granted" : "Missing"),
-            ("Keyboard Blocking", isLocked ? "Active" : (isAccessibilityAuthorized ? "Ready" : "Unavailable")),
-            ("Unlock Method", diagnosticsUnlockMethodLabel),
-            ("Overlay Style", overlayStyle.label),
-            ("Display Target", fullScreenCoverage.label),
-            ("Auto Unlock", autoUnlockTimeout.label),
-            ("Sound", soundEnabled ? "On" : "Off"),
-            ("Lock Test", hasCompletedLockTest ? "Completed" : "Pending")
+            (String(localized: "Accessibility"),     isAccessibilityAuthorized ? String(localized: "Granted") : String(localized: "Missing"),     isAccessibilityAuthorized ? .good : .bad),
+            (String(localized: "Keyboard Blocking"), isLocked ? String(localized: "Active") : (isAccessibilityAuthorized ? String(localized: "Ready") : String(localized: "Unavailable")), isLocked ? .good : (isAccessibilityAuthorized ? .neutral : .bad)),
+            (String(localized: "Unlock Method"),     diagnosticsUnlockMethodLabel,                                                                 .info),
+            (String(localized: "Overlay Style"),     overlayStyle.label,                                                                           .info),
+            (String(localized: "Display Target"),    fullScreenCoverage.label,                                                                     .info),
+            (String(localized: "Auto Unlock"),       autoUnlockTimeout.label,                                                                      .info),
+            (String(localized: "Sound"),             soundEnabled ? String(localized: "On") : String(localized: "Off"),                            soundEnabled ? .good : .neutral),
+            (String(localized: "Lock Test"),         hasCompletedLockTest ? String(localized: "Completed") : String(localized: "Pending"),         hasCompletedLockTest ? .good : .neutral)
         ]
     }
 
@@ -456,8 +468,8 @@ final class CleaningStateManager: ObservableObject {
 
     private var diagnosticsUnlockMethodLabel: String {
         switch preferredUnlockMethod {
-        case .touchID: return pinEnabled ? "Touch ID + PIN" : "Touch ID"
-        case .pin: return "PIN"
+        case .touchID: return pinEnabled ? String(localized: "Touch ID + PIN") : String(localized: "Touch ID")
+        case .pin: return String(localized: "PIN")
         }
     }
 
@@ -477,7 +489,6 @@ final class CleaningStateManager: ObservableObject {
         playSound("Tink")
         performHaptic(.generic)
         overlayController.show(cleaningState: self, style: overlayStyle, coverage: fullScreenCoverage)
-
     }
 
     // MARK: - Timer
@@ -513,7 +524,7 @@ final class CleaningStateManager: ObservableObject {
             ? .deviceOwnerAuthenticationWithBiometrics
             : .deviceOwnerAuthentication
 
-        context.evaluatePolicy(policy, localizedReason: "Unlock your keyboard after cleaning") { [weak self] success, error in
+        context.evaluatePolicy(policy, localizedReason: String(localized: "Unlock your keyboard after cleaning")) { [weak self] success, error in
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 if success {
@@ -548,7 +559,11 @@ final class CleaningStateManager: ObservableObject {
 
     private func playSound(_ name: String) {
         guard soundEnabled else { return }
-        NSSound(named: NSSound.Name(name))?.play()
+        guard let sound = NSSound(named: NSSound.Name(name)) else {
+            logger.warning("Sound '\(name)' not found")
+            return
+        }
+        sound.play()
     }
 
     // MARK: - Event Tap
@@ -559,7 +574,7 @@ final class CleaningStateManager: ObservableObject {
 
         guard isAccessibilityAuthorized else {
             logger.error("Accessibility permission not granted — keyboard events will not be blocked")
-            lockFailureMessage = "Accessibility access is required before the keyboard can be locked."
+            lockFailureMessage = String(localized: "Accessibility access is required before the keyboard can be locked.")
             requestAccessibilityPermission()
             return false
         }
@@ -580,7 +595,7 @@ final class CleaningStateManager: ObservableObject {
 
         guard let tap else {
             logger.error("CGEvent tap creation failed — event tap returned nil")
-            lockFailureMessage = "Keyboard lock failed because the system event tap could not be created."
+            lockFailureMessage = String(localized: "Keyboard lock failed because the system event tap could not be created.")
             return false
         }
 
@@ -646,8 +661,6 @@ final class OverlayWindowController {
         windows.removeAll()
     }
 
-
-
     private func makeFullWindow(for screen: NSScreen, cleaningState: CleaningStateManager) -> NSWindow {
         let window = NSWindow(
             contentRect: screen.frame,
@@ -665,16 +678,9 @@ final class OverlayWindowController {
     }
 
     private func activeScreen() -> NSScreen {
-        let pointerLocation = NSEvent.mouseLocation
-        if let match = NSScreen.screens.first(where: { NSMouseInRect(pointerLocation, $0.frame, false) }) {
-            return match
-        }
-        if let main = NSScreen.main { return main }
-        // NSScreen.screens is never empty on a running system; guard defensively
-        guard let first = NSScreen.screens.first else {
-            preconditionFailure("No displays found")
-        }
-        return first
+        NSScreen.screens.first(where: { NSMouseInRect(NSEvent.mouseLocation, $0.frame, false) })
+            ?? NSScreen.main
+            ?? NSScreen.screens[0] // NSScreen.screens is never empty on a running Mac
     }
 }
 
@@ -701,30 +707,6 @@ private enum PinKeychainStore {
               let pin = String(data: data, encoding: .utf8)
         else { return nil }
         return pin
-    }
-
-    static func savePin(_ pin: String) {
-        let data = Data(pin.utf8)
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: account
-        ]
-        let attributes: [String: Any] = [
-            kSecValueData as String: data
-        ]
-
-        let updateStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-        if updateStatus == errSecItemNotFound {
-            var addQuery = query
-            addQuery[kSecValueData as String] = data
-            let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
-            if addStatus != errSecSuccess {
-                os_log(.error, "Keychain: SecItemAdd failed with status %d", addStatus)
-            }
-        } else if updateStatus != errSecSuccess {
-            os_log(.error, "Keychain: SecItemUpdate failed with status %d", updateStatus)
-        }
     }
 
     static func deletePin() {

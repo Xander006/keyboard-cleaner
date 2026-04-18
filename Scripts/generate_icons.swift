@@ -7,13 +7,18 @@ let menuBarIconSetURL = projectRoot.appendingPathComponent("KeyboardCleaner/Asse
 let previewURL = projectRoot.appendingPathComponent("icon_preview_v2.png")
 
 struct Palette {
-    static let inkTop = NSColor(calibratedRed: 0.09, green: 0.12, blue: 0.17, alpha: 1)
-    static let inkBottom = NSColor(calibratedRed: 0.05, green: 0.07, blue: 0.11, alpha: 1)
-    static let mint = NSColor(calibratedRed: 0.33, green: 0.85, blue: 0.73, alpha: 1)
-    static let aqua = NSColor(calibratedRed: 0.28, green: 0.68, blue: 0.92, alpha: 1)
-    static let keyTop = NSColor(calibratedWhite: 0.98, alpha: 0.98)
-    static let keyBottom = NSColor(calibratedWhite: 0.86, alpha: 0.96)
-    static let graphite = NSColor(calibratedRed: 0.16, green: 0.19, blue: 0.24, alpha: 1)
+    static let shellTop = NSColor(calibratedRed: 0.73, green: 0.80, blue: 0.87, alpha: 1)
+    static let shellBottom = NSColor(calibratedRed: 0.30, green: 0.36, blue: 0.45, alpha: 1)
+    static let shellEdge = NSColor(calibratedRed: 0.92, green: 0.95, blue: 0.98, alpha: 1)
+    static let shellMist = NSColor(calibratedWhite: 1.0, alpha: 0.94)
+    static let keyTop = NSColor(calibratedRed: 0.995, green: 0.997, blue: 1.0, alpha: 1)
+    static let keyBottom = NSColor(calibratedRed: 0.90, green: 0.93, blue: 0.97, alpha: 1)
+    static let keyEdge = NSColor(calibratedRed: 0.82, green: 0.87, blue: 0.92, alpha: 1)
+    static let baseTop = NSColor(calibratedRed: 0.66, green: 0.72, blue: 0.79, alpha: 0.98)
+    static let baseBottom = NSColor(calibratedRed: 0.47, green: 0.53, blue: 0.61, alpha: 0.99)
+    static let glyph = NSColor(calibratedRed: 0.31, green: 0.35, blue: 0.40, alpha: 0.96)
+    static let accentBlue = NSColor(calibratedRed: 0.60, green: 0.79, blue: 0.96, alpha: 1)
+    static let accentSoft = NSColor(calibratedRed: 0.90, green: 0.96, blue: 1.0, alpha: 1)
 }
 
 func roundedRectPath(_ rect: NSRect, radius: CGFloat) -> NSBezierPath {
@@ -62,70 +67,81 @@ func drawAppIcon(size: CGFloat) -> NSImage {
     NSGraphicsContext.current?.imageInterpolation = .high
 
     let canvas = NSRect(x: 0, y: 0, width: size, height: size)
-    let iconRect = canvas.insetBy(dx: size * 0.035, dy: size * 0.035)
-    let iconRadius = size * 0.23
+    let iconRect = canvas.insetBy(dx: size * 0.04, dy: size * 0.04)
+    let iconRadius = size * 0.225
 
     let shadow = NSShadow()
-    shadow.shadowColor = NSColor.black.withAlphaComponent(0.22)
-    shadow.shadowBlurRadius = size * 0.05
-    shadow.shadowOffset = NSSize(width: 0, height: -size * 0.02)
+    shadow.shadowColor = NSColor.black.withAlphaComponent(0.20)
+    shadow.shadowBlurRadius = size * 0.06
+    shadow.shadowOffset = NSSize(width: 0, height: -size * 0.024)
     shadow.set()
 
     let iconPath = roundedRectPath(iconRect, radius: iconRadius)
-    fillLinearGradient(in: iconPath, colors: [Palette.inkTop, Palette.inkBottom], angle: -90)
+    fillLinearGradient(in: iconPath, colors: [Palette.shellTop, Palette.shellBottom], angle: -90)
 
     NSGraphicsContext.current?.saveGraphicsState()
     iconPath.addClip()
 
     drawGlow(
-        in: NSRect(x: size * 0.16, y: size * 0.52, width: size * 0.48, height: size * 0.34),
-        color: Palette.mint,
-        alpha: 0.22
-    )
-    drawGlow(
-        in: NSRect(x: size * 0.46, y: size * 0.44, width: size * 0.34, height: size * 0.28),
-        color: Palette.aqua,
+        in: NSRect(x: size * 0.08, y: size * 0.64, width: size * 0.84, height: size * 0.20),
+        color: Palette.shellMist,
         alpha: 0.18
     )
     drawGlow(
-        in: NSRect(x: size * 0.26, y: size * 0.10, width: size * 0.56, height: size * 0.30),
-        color: NSColor.white,
-        alpha: 0.06
+        in: NSRect(x: size * 0.24, y: size * 0.20, width: size * 0.52, height: size * 0.22),
+        color: Palette.accentBlue,
+        alpha: 0.08
     )
 
     let glossPath = roundedRectPath(
-        NSRect(x: iconRect.minX, y: iconRect.midY, width: iconRect.width, height: iconRect.height * 0.48),
+        NSRect(x: iconRect.minX, y: iconRect.midY + size * 0.05, width: iconRect.width, height: iconRect.height * 0.34),
         radius: iconRadius
     )
     let gloss = NSGradient(colors: [
-        NSColor.white.withAlphaComponent(0.12),
-        NSColor.white.withAlphaComponent(0.03),
+        NSColor.white.withAlphaComponent(0.24),
+        NSColor.white.withAlphaComponent(0.04),
         .clear,
     ])!
     gloss.draw(in: glossPath, angle: 90)
 
-    let keyWidth = size * 0.43
-    let keyHeight = size * 0.30
+    let plateWidth = size * 0.58
+    let plateHeight = size * 0.42
+    let plateRect = NSRect(
+        x: (size - plateWidth) / 2,
+        y: size * 0.24,
+        width: plateWidth,
+        height: plateHeight
+    )
+    let platePath = roundedRectPath(plateRect, radius: size * 0.15)
+    let plateGradient = NSGradient(colors: [
+        NSColor.white.withAlphaComponent(0.10),
+        NSColor.white.withAlphaComponent(0.04),
+        NSColor.clear,
+    ])!
+    plateGradient.draw(in: platePath, angle: 90)
+
+    let keyWidth = size * 0.48
+    let keyHeight = size * 0.34
     let keyRect = NSRect(
         x: (size - keyWidth) / 2,
-        y: size * 0.31,
+        y: size * 0.29,
         width: keyWidth,
         height: keyHeight
     )
-    let keyBaseRect = keyRect.offsetBy(dx: 0, dy: -size * 0.03)
+    let keyBaseRect = keyRect.offsetBy(dx: 0, dy: -size * 0.040)
 
     let baseShadow = NSShadow()
-    baseShadow.shadowColor = NSColor.black.withAlphaComponent(0.18)
-    baseShadow.shadowBlurRadius = size * 0.03
-    baseShadow.shadowOffset = NSSize(width: 0, height: -size * 0.012)
+    baseShadow.shadowColor = NSColor.black.withAlphaComponent(0.16)
+    baseShadow.shadowBlurRadius = size * 0.036
+    baseShadow.shadowOffset = NSSize(width: 0, height: -size * 0.018)
     baseShadow.set()
 
     let keyBasePath = roundedRectPath(keyBaseRect, radius: size * 0.09)
     fillLinearGradient(
         in: keyBasePath,
         colors: [
-            NSColor(calibratedWhite: 0.82, alpha: 0.92),
-            NSColor(calibratedWhite: 0.72, alpha: 0.88),
+            Palette.baseTop,
+            Palette.baseBottom,
         ],
         angle: -90
     )
@@ -135,35 +151,105 @@ func drawAppIcon(size: CGFloat) -> NSImage {
     let keyFacePath = roundedRectPath(keyRect, radius: size * 0.09)
     fillLinearGradient(in: keyFacePath, colors: [Palette.keyTop, Palette.keyBottom], angle: -90)
 
+    let keyEdgePath = roundedRectPath(keyRect.insetBy(dx: size * 0.003, dy: size * 0.003), radius: size * 0.086)
+    Palette.keyEdge.withAlphaComponent(0.34).setStroke()
+    keyEdgePath.lineWidth = max(1.2, size * 0.004)
+    keyEdgePath.stroke()
+
     let innerHighlight = roundedRectPath(keyRect.insetBy(dx: size * 0.008, dy: size * 0.008), radius: size * 0.08)
-    NSColor.white.withAlphaComponent(0.28).setStroke()
+    NSColor.white.withAlphaComponent(0.38).setStroke()
     innerHighlight.lineWidth = max(1.5, size * 0.006)
     innerHighlight.stroke()
 
-    let sheenPath = NSBezierPath()
-    sheenPath.lineWidth = size * 0.028
-    sheenPath.lineCapStyle = .round
-    sheenPath.move(to: CGPoint(x: keyRect.minX + keyRect.width * 0.22, y: keyRect.maxY - keyRect.height * 0.28))
-    sheenPath.curve(
-        to: CGPoint(x: keyRect.maxX - keyRect.width * 0.14, y: keyRect.midY + keyRect.height * 0.06),
-        controlPoint1: CGPoint(x: keyRect.midX - keyRect.width * 0.04, y: keyRect.maxY - keyRect.height * 0.06),
-        controlPoint2: CGPoint(x: keyRect.maxX - keyRect.width * 0.32, y: keyRect.midY + keyRect.height * 0.18)
+    let topPlane = roundedRectPath(
+        NSRect(
+            x: keyRect.minX + size * 0.012,
+            y: keyRect.midY + size * 0.012,
+            width: keyRect.width - size * 0.024,
+            height: keyRect.height * 0.44
+        ),
+        radius: size * 0.055
     )
-    Palette.aqua.withAlphaComponent(0.28).setStroke()
-    sheenPath.stroke()
+    let topGradient = NSGradient(colors: [
+        NSColor.white.withAlphaComponent(0.34),
+        NSColor.white.withAlphaComponent(0.08),
+        NSColor.clear,
+    ])!
+    topGradient.draw(in: topPlane, angle: 90)
 
-    let dot = NSBezierPath(ovalIn: NSRect(x: keyRect.midX - size * 0.017, y: keyRect.midY - size * 0.017, width: size * 0.034, height: size * 0.034))
-    Palette.graphite.withAlphaComponent(0.88).setFill()
-    dot.fill()
+    let wipePath = NSBezierPath()
+    wipePath.lineWidth = size * 0.028
+    wipePath.lineCapStyle = .round
+    wipePath.move(to: CGPoint(x: keyRect.minX + keyRect.width * 0.22, y: keyRect.minY + keyRect.height * 0.63))
+    wipePath.curve(
+        to: CGPoint(x: keyRect.maxX - keyRect.width * 0.18, y: keyRect.minY + keyRect.height * 0.44),
+        controlPoint1: CGPoint(x: keyRect.midX - keyRect.width * 0.12, y: keyRect.maxY - keyRect.height * 0.02),
+        controlPoint2: CGPoint(x: keyRect.maxX - keyRect.width * 0.30, y: keyRect.midY + keyRect.height * 0.08)
+    )
+    Palette.accentBlue.withAlphaComponent(0.34).setStroke()
+    wipePath.stroke()
 
-    drawSparkle(center: CGPoint(x: size * 0.73, y: size * 0.71), radius: size * 0.045, color: NSColor.white.withAlphaComponent(0.95))
-    drawSparkle(center: CGPoint(x: size * 0.25, y: size * 0.22), radius: size * 0.026, color: Palette.mint.withAlphaComponent(0.85))
+    let wipeGlowPath = NSBezierPath()
+    wipeGlowPath.lineWidth = size * 0.010
+    wipeGlowPath.lineCapStyle = .round
+    wipeGlowPath.move(to: CGPoint(x: keyRect.minX + keyRect.width * 0.24, y: keyRect.minY + keyRect.height * 0.64))
+    wipeGlowPath.curve(
+        to: CGPoint(x: keyRect.maxX - keyRect.width * 0.20, y: keyRect.minY + keyRect.height * 0.47),
+        controlPoint1: CGPoint(x: keyRect.midX - keyRect.width * 0.11, y: keyRect.maxY - keyRect.height * 0.07),
+        controlPoint2: CGPoint(x: keyRect.maxX - keyRect.width * 0.29, y: keyRect.midY + keyRect.height * 0.10)
+    )
+    NSColor.white.withAlphaComponent(0.34).setStroke()
+    wipeGlowPath.stroke()
+
+    let groovePath = NSBezierPath()
+    groovePath.lineWidth = max(2, size * 0.016)
+    groovePath.lineCapStyle = .round
+    groovePath.move(to: CGPoint(x: keyRect.minX + keyRect.width * 0.26, y: keyRect.minY + keyRect.height * 0.20))
+    groovePath.line(to: CGPoint(x: keyRect.maxX - keyRect.width * 0.26, y: keyRect.minY + keyRect.height * 0.20))
+    Palette.glyph.withAlphaComponent(0.14).setStroke()
+    groovePath.stroke()
+
+    let lockBodyRect = NSRect(
+        x: keyRect.midX - size * 0.045,
+        y: keyRect.midY + size * 0.002,
+        width: size * 0.090,
+        height: size * 0.068
+    )
+    let lockBodyPath = roundedRectPath(lockBodyRect, radius: size * 0.021)
+    fillLinearGradient(
+        in: lockBodyPath,
+        colors: [Palette.glyph.withAlphaComponent(0.94), Palette.glyph.withAlphaComponent(0.76)],
+        angle: -90
+    )
+
+    let shacklePath = NSBezierPath()
+    shacklePath.lineWidth = max(2, size * 0.012)
+    shacklePath.lineCapStyle = .round
+    shacklePath.move(to: CGPoint(x: lockBodyRect.minX + size * 0.016, y: lockBodyRect.maxY - size * 0.002))
+    shacklePath.curve(
+        to: CGPoint(x: lockBodyRect.maxX - size * 0.016, y: lockBodyRect.maxY - size * 0.002),
+        controlPoint1: CGPoint(x: lockBodyRect.minX + size * 0.004, y: lockBodyRect.maxY + size * 0.044),
+        controlPoint2: CGPoint(x: lockBodyRect.maxX - size * 0.004, y: lockBodyRect.maxY + size * 0.044)
+    )
+    Palette.glyph.withAlphaComponent(0.78).setStroke()
+    shacklePath.stroke()
+
+    let keyhole = NSBezierPath(ovalIn: NSRect(
+        x: lockBodyRect.midX - size * 0.007,
+        y: lockBodyRect.minY + size * 0.017,
+        width: size * 0.014,
+        height: size * 0.018
+    ))
+    NSColor.white.withAlphaComponent(0.30).setFill()
+    keyhole.fill()
+
+    drawSparkle(center: CGPoint(x: size * 0.75, y: size * 0.70), radius: size * 0.022, color: NSColor.white.withAlphaComponent(0.94))
 
     let edgePath = roundedRectPath(iconRect.insetBy(dx: size * 0.004, dy: size * 0.004), radius: iconRadius * 0.96)
     let edgeGradient = NSGradient(colors: [
-        NSColor.white.withAlphaComponent(0.22),
-        NSColor.white.withAlphaComponent(0.03),
-        NSColor.black.withAlphaComponent(0.12),
+        Palette.shellEdge.withAlphaComponent(0.30),
+        Palette.accentSoft.withAlphaComponent(0.06),
+        NSColor.black.withAlphaComponent(0.14),
     ])!
     edgeGradient.draw(in: edgePath, angle: -62)
 
@@ -184,17 +270,16 @@ func drawMenuBarIcon(size: CGFloat) -> NSImage {
     path.lineWidth = max(1.2, size * 0.11)
     path.stroke()
 
-    let shine = NSBezierPath()
-    shine.lineWidth = max(1.1, size * 0.095)
-    shine.lineCapStyle = .round
-    shine.move(to: CGPoint(x: keyRect.minX + size * 0.18, y: keyRect.maxY - size * 0.25))
-    shine.line(to: CGPoint(x: keyRect.midX + size * 0.05, y: keyRect.midY + size * 0.02))
-    NSColor.black.setStroke()
-    shine.stroke()
+    let wipe = NSBezierPath()
+    wipe.lineWidth = max(1.0, size * 0.075)
+    wipe.lineCapStyle = .round
+    wipe.move(to: CGPoint(x: keyRect.minX + size * 0.12, y: keyRect.midY + size * 0.06))
+    wipe.line(to: CGPoint(x: keyRect.maxX - size * 0.12, y: keyRect.midY - size * 0.03))
+    wipe.stroke()
 
     let sparkle = NSBezierPath()
-    let s = size * 0.10
-    let c = CGPoint(x: rect.maxX - size * 0.24, y: rect.maxY - size * 0.25)
+    let s = size * 0.08
+    let c = CGPoint(x: rect.maxX - size * 0.22, y: rect.maxY - size * 0.24)
     sparkle.lineWidth = max(1, size * 0.08)
     sparkle.lineCapStyle = .round
     sparkle.move(to: CGPoint(x: c.x, y: c.y + s))

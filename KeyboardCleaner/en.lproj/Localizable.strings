@@ -1,99 +1,230 @@
-"Keyboard Cleaner Help" = "Keyboard Cleaner Help";
+/* App name */
 "Keyboard Cleaner" = "Keyboard Cleaner";
-"Keyboard Locked" = "Keyboard Locked";
+"Keyboard Cleaner Help" = "Keyboard Cleaner Help";
+
+/* Alerts */
 "Unable to Lock Keyboard" = "Unable to Lock Keyboard";
+"Accessibility access is required before the keyboard can be locked." = "Accessibility access is required before the keyboard can be locked.";
+"Keyboard lock failed because the system event tap could not be created." = "Keyboard lock failed because the system event tap could not be created.";
 "OK" = "OK";
+
+/* Touch ID prompt */
+"Unlock your keyboard after cleaning" = "Unlock your keyboard after cleaning";
+
+/* Menu bar */
+"Keyboard Locked" = "Keyboard Locked";
+"Lock Keyboard" = "Lock Keyboard";
+"Unlock Keyboard…" = "Unlock Keyboard…";
+"Locked" = "Locked";
+"Presets" = "Presets";
+"Open" = "Open";
+"Settings…" = "Settings…";
+"Diagnostics…" = "Diagnostics…";
+"Help…" = "Help…";
+"Quit Keyboard Cleaner" = "Quit Keyboard Cleaner";
+
+/* Accessibility permission screen */
 "Accessibility Access Required" = "Accessibility Access Required";
 "Keyboard Cleaner needs accessibility permission to intercept keyboard input before it reaches other apps." = "Keyboard Cleaner needs accessibility permission to intercept keyboard input before it reaches other apps.";
 "Open System Settings" = "Open System Settings";
-"I’ve Granted Access" = "I’ve Granted Access";
+"Open System Settings to grant accessibility access" = "Open System Settings to grant accessibility access";
+"I've Granted Access" = "I've Granted Access";
+"Recheck accessibility permission" = "Recheck accessibility permission";
 "Permission not detected yet." = "Permission not detected yet.";
 "Relaunch App" = "Relaunch App";
+"Privacy & Security → Accessibility" = "Privacy & Security → Accessibility";
+"Toggle on Keyboard Cleaner — or tap + to add it if it's not listed" = "Toggle on Keyboard Cleaner — or tap + to add it if it's not listed";
+
+/* Onboarding */
 "Meet Keyboard Cleaner" = "Meet Keyboard Cleaner";
+"Lock your keyboard and clean every key safely — no accidental input, no worries." = "Lock your keyboard and clean every key safely — no accidental input, no worries.";
 "One Tap, Fully Locked" = "One Tap, Fully Locked";
+"Every keystroke is blocked the moment you tap Lock. Wipe as hard as you like." = "Every keystroke is blocked the moment you tap Lock. Wipe as hard as you like.";
 "Touch ID to Unlock" = "Touch ID to Unlock";
 "Touch ID, With PIN Backup" = "Touch ID, With PIN Backup";
+"Touch ID is the primary unlock path, and your PIN stays available as a deliberate fallback." = "Touch ID is the primary unlock path, and your PIN stays available as a deliberate fallback.";
+"When you're done cleaning, Touch ID unlocks everything instantly." = "When you're done cleaning, Touch ID unlocks everything instantly.";
 "PIN to Unlock" = "PIN to Unlock";
-"Password Fallback" = "Password Fallback";
+"No Touch ID? No problem — unlock using the on-screen PIN pad with your mouse, no keyboard needed." = "No Touch ID? No problem — unlock using the on-screen PIN pad with your mouse, no keyboard needed.";
 "Continue" = "Continue";
 "Get Started" = "Get Started";
+"Continue to next page" = "Continue to next page";
+
+/* Idle / home screen */
 "A quiet way to lock the keyboard while you clean." = "A quiet way to lock the keyboard while you clean.";
 "Blocks all keystrokes" = "Blocks all keystrokes";
 "No accidental input while cleaning" = "No accidental input while cleaning";
 "Touch ID to unlock" = "Touch ID to unlock";
-"PIN or Password to unlock" = "PIN or Password to unlock";
-"A deliberate unlock path when you’re done" = "A deliberate unlock path when you’re done";
+"PIN to unlock" = "PIN to unlock";
+"A deliberate unlock path when you're done" = "A deliberate unlock path when you're done";
 "Wipe with confidence" = "Wipe with confidence";
 "Designed for quick, low-friction cleaning sessions" = "Designed for quick, low-friction cleaning sessions";
-"Auto-unlock" = "Auto-unlock";
-"Overlay" = "Overlay";
 "Run a Quick Lock Test" = "Run a Quick Lock Test";
 "Try one short lock now so you know accessibility access is working before you start cleaning." = "Try one short lock now so you know accessibility access is working before you start cleaning.";
 "Test" = "Test";
+"Run a quick lock test" = "Run a quick lock test";
 "No Touch ID detected. Open Settings → PIN Code to set up a PIN." = "No Touch ID detected. Open Settings → PIN Code to set up a PIN.";
+"No Touch ID detected. Open Settings to set up a PIN." = "No Touch ID detected. Open Settings to set up a PIN.";
 "Set Up PIN to Continue" = "Set Up PIN to Continue";
-"Lock Keyboard" = "Lock Keyboard";
+"Lock keyboard for cleaning" = "Lock keyboard for cleaning";
+"Blocks all keyboard input. Unlock when done." = "Blocks all keyboard input. Unlock when done.";
 "No Touch ID detected — set a PIN to unlock" = "No Touch ID detected — set a PIN to unlock";
 "Touch ID or PIN to unlock  ·  ⌃⌘L to lock from anywhere" = "Touch ID or PIN to unlock  ·  ⌃⌘L to lock from anywhere";
 "Touch ID to unlock  ·  ⌃⌘L to lock from anywhere" = "Touch ID to unlock  ·  ⌃⌘L to lock from anywhere";
+
+/* Segmented control */
+"Selected" = "Selected";
+"Not selected" = "Not selected";
+
+/* Window accessory bar */
 "Ready to lock" = "Ready to lock";
+"Open help" = "Open help";
+"Open help and usage guidance" = "Open help and usage guidance";
 "Open settings" = "Open settings";
+"Open cleaning, unlock, and menu bar preferences" = "Open cleaning, unlock, and menu bar preferences";
+
+/* Locked state */
+"Keyboard is locked" = "Keyboard is locked";
+"Keyboard Locked" = "Keyboard Locked";
+"All keystrokes are blocked.\nClean your keyboard freely." = "All keystrokes are blocked.\nClean your keyboard freely.";
+"Place your finger on Touch ID…" = "Place your finger on Touch ID…";
+"Verifying…" = "Verifying…";
+"Touch ID failed. Try again." = "Touch ID failed. Try again.";
+"Authentication failed. Try again." = "Authentication failed. Try again.";
+"Unlocked successfully!" = "Unlocked successfully!";
+"remaining" = "remaining";
+"keyboard locked" = "keyboard locked";
+
+/* Unlock button */
+"Unlock with Touch ID" = "Unlock with Touch ID";
+"Try Again" = "Try Again";
+"Unlocked" = "Unlocked";
+"Uses Touch ID or PIN to unlock the keyboard" = "Uses Touch ID or PIN to unlock the keyboard";
+"Uses Touch ID to unlock the keyboard" = "Uses Touch ID to unlock the keyboard";
+"Uses PIN to unlock the keyboard" = "Uses PIN to unlock the keyboard";
+"Previous attempt failed. Tap to try again." = "Previous attempt failed. Tap to try again.";
+"Use PIN" = "Use PIN";
+"Alternative unlock method" = "Alternative unlock method";
+
+/* PIN pad */
+"Cancel" = "Cancel";
+"Cancel PIN entry" = "Cancel PIN entry";
+"Delete last digit" = "Delete last digit";
+"Too many attempts. Try again in %ds." = "Too many attempts. Try again in %ds.";
+
+/* Touch ID note */
+"Physical Touch ID key may trigger macOS lock screen" = "Physical Touch ID key may trigger macOS lock screen";
+"Note: physical Touch ID key may trigger macOS lock screen" = "Note: physical Touch ID key may trigger macOS lock screen";
+
+/* Accessibility hints (not visible, read by VoiceOver) */
+"Auto-unlock timeout" = "Auto-unlock timeout";
+"Set a duration after which the keyboard unlocks automatically" = "Set a duration after which the keyboard unlocks automatically";
+"Full-screen coverage" = "Full-screen coverage";
+"Choose whether the full-screen overlay covers all displays or only the active display" = "Choose whether the full-screen overlay covers all displays or only the active display";
+"Start Keyboard Cleaner automatically when you log in" = "Start Keyboard Cleaner automatically when you log in";
+
+/* Auto-unlock timeouts */
+"Never" = "Never";
+"3 min" = "3 min";
+"5 min" = "5 min";
+"10 min" = "10 min";
+
+/* Overlay styles */
+"Full Screen" = "Full Screen";
+"Minimal" = "Minimal";
+
+/* Display coverage */
+"All Displays" = "All Displays";
+"Active Only" = "Active Only";
+
+/* Presets */
+"Quick Wipe" = "Quick Wipe";
+"Focused Desk" = "Focused Desk";
+"Deep Clean" = "Deep Clean";
+"3 min, minimal overlay, sound off" = "3 min, minimal overlay, sound off";
+"5 min, full screen, sound on" = "5 min, full screen, sound on";
+"10 min, full screen, sound on" = "10 min, full screen, sound on";
+"Apply preset" = "Apply preset";
+
+/* Settings */
 "Settings" = "Settings";
-"Diagnostics" = "Diagnostics";
-"Help" = "Help";
 "Sound Feedback" = "Sound Feedback";
 "Play sounds when locking and unlocking" = "Play sounds when locking and unlocking";
 "Launch at Login" = "Launch at Login";
 "Start automatically when you log in" = "Start automatically when you log in";
-"Menu Bar Only" = "Menu Bar Only";
-"Hide the main window, run from menu bar" = "Hide the main window, run from menu bar";
 "PIN Code" = "PIN Code";
 "Mouse-clickable numpad unlock" = "Mouse-clickable numpad unlock";
 "Unlock with a 4-digit PIN (no Touch ID needed)" = "Unlock with a 4-digit PIN (no Touch ID needed)";
 "Change" = "Change";
 "Remove" = "Remove";
 "Set PIN" = "Set PIN";
+"Change PIN code" = "Change PIN code";
+"Remove PIN code" = "Remove PIN code";
 "Cleaning Session" = "Cleaning Session";
-"Presets" = "Presets";
-"Quick Wipe" = "Quick Wipe";
-"Focused Desk" = "Focused Desk";
-"Deep Clean" = "Deep Clean";
-"Show Window" = "Show Window";
-"Unlock Keyboard…" = "Unlock Keyboard…";
-"Apply Preset" = "Apply Preset";
-"Settings…" = "Settings…";
-"Diagnostics…" = "Diagnostics…";
-"Help…" = "Help…";
-"Quit Keyboard Cleaner" = "Quit Keyboard Cleaner";
+"Auto-unlock" = "Auto-unlock";
+"Display Target" = "Display Target";
+"Reset Onboarding" = "Reset Onboarding";
+"Show the intro screens again on next launch" = "Show the intro screens again on next launch";
+"Reset" = "Reset";
+"Advanced" = "Advanced";
 "Done" = "Done";
-"Close settings" = "Close settings";
-"Close diagnostics" = "Close diagnostics";
-"Close help" = "Close help";
+"Open diagnostics" = "Open diagnostics";
+
+/* Diagnostics */
+"Diagnostics" = "Diagnostics";
+"Current state of permissions and app configuration." = "Current state of permissions and app configuration.";
+"Accessibility" = "Accessibility";
+"Keyboard Blocking" = "Keyboard Blocking";
+"Unlock Method" = "Unlock Method";
+"Overlay Style" = "Overlay Style";
+"Auto Unlock" = "Auto Unlock";
+"Sound" = "Sound";
+"Lock Test" = "Lock Test";
+"Granted" = "Granted";
+"Missing" = "Missing";
+"Active" = "Active";
+"Ready" = "Ready";
+"Unavailable" = "Unavailable";
+"Completed" = "Completed";
+"Pending" = "Pending";
+"On" = "On";
+"Off" = "Off";
+"Touch ID + PIN" = "Touch ID + PIN";
+"Touch ID" = "Touch ID";
+"PIN" = "PIN";
+
+/* Help */
+"Help" = "Help";
+"How to lock, unlock, and configure Keyboard Cleaner." = "How to lock, unlock, and configure Keyboard Cleaner.";
 "Start a Cleaning Session" = "Start a Cleaning Session";
+"Click **Lock Keyboard** in the main window or choose it from the menu bar icon." = "Click **Lock Keyboard** in the main window or choose it from the menu bar icon.";
+"Press **⌃⌘L** (Control + Command + L) to lock from anywhere on your Mac." = "Press **⌃⌘L** (Control + Command + L) to lock from anywhere on your Mac.";
+"Once locked, all keystrokes are blocked before they reach any other app." = "Once locked, all keystrokes are blocked before they reach any other app.";
 "Unlock Safely" = "Unlock Safely";
+"**Touch ID** is the primary unlock path — place your finger on the sensor." = "**Touch ID** is the primary unlock path — place your finger on the sensor.";
+"If Touch ID fails, tap **Use PIN** to switch to the mouse-clickable PIN pad." = "If Touch ID fails, tap **Use PIN** to switch to the mouse-clickable PIN pad.";
+"The physical Touch ID key may trigger the macOS lock screen on some Macs." = "The physical Touch ID key may trigger the macOS lock screen on some Macs.";
+"Set a **PIN** in Settings to have a mouse-only fallback if Touch ID isn't working." = "Set a **PIN** in Settings to have a mouse-only fallback if Touch ID isn't working.";
+"Click digits on the **PIN pad** with your mouse — no keyboard needed." = "Click digits on the **PIN pad** with your mouse — no keyboard needed.";
+"The PIN pad appears directly in the main window when the keyboard is locked." = "The PIN pad appears directly in the main window when the keyboard is locked.";
+"Set a PIN in **Settings** to change or remove it at any time." = "Set a PIN in **Settings** to change or remove it at any time.";
 "Useful Settings" = "Useful Settings";
+"**Overlay** — choose a full-screen lock view or a compact floating panel." = "**Overlay** — choose a full-screen lock view or a compact floating panel.";
+"**Auto-unlock** — end the session automatically after a set time." = "**Auto-unlock** — end the session automatically after a set time.";
+"**PIN Code** — set a mouse-only unlock path, useful as a Touch ID fallback." = "**PIN Code** — set a mouse-only unlock path, useful as a Touch ID fallback.";
 "Troubleshooting" = "Troubleshooting";
-"How to lock, unlock, and troubleshoot Keyboard Cleaner." = "How to lock, unlock, and troubleshoot Keyboard Cleaner.";
-"Click `Lock Keyboard` from the main window or menu bar." = "Click `Lock Keyboard` from the main window or menu bar.";
-"You can also press `Control` + `Command` + `L` to lock from anywhere." = "You can also press `Control` + `Command` + `L` to lock from anywhere.";
-"A successful lock blocks all keystrokes before they reach other apps." = "A successful lock blocks all keystrokes before they reach other apps.";
-"Touch ID is the primary unlock path." = "Touch ID is the primary unlock path.";
-"If needed, you can switch to the on-screen PIN pad as a fallback." = "If needed, you can switch to the on-screen PIN pad as a fallback.";
-"After a failed biometric attempt, password fallback can also appear." = "After a failed biometric attempt, password fallback can also appear.";
-"If biometric authentication fails, the app can fall back to your Mac password." = "If biometric authentication fails, the app can fall back to your Mac password.";
-"The physical Touch ID key may still trigger the macOS lock screen on some Macs." = "The physical Touch ID key may still trigger the macOS lock screen on some Macs.";
-"Unlock from the on-screen PIN pad using your mouse." = "Unlock from the on-screen PIN pad using your mouse.";
-"PIN unlock is useful on Macs without Touch ID or when keyboard input is intentionally blocked." = "PIN unlock is useful on Macs without Touch ID or when keyboard input is intentionally blocked.";
-"If PIN entry fails, clear the digits and try again carefully." = "If PIN entry fails, clear the digits and try again carefully.";
-"Unlock with your Mac password when biometric or PIN unlock is not available." = "Unlock with your Mac password when biometric or PIN unlock is not available.";
-"The password prompt comes from macOS authentication and does not type into other apps." = "The password prompt comes from macOS authentication and does not type into other apps.";
-"If you want a mouse-only unlock path, set a PIN in Settings." = "If you want a mouse-only unlock path, set a PIN in Settings.";
-"Use `Overlay` to choose between a full-screen lock view and a compact floating view." = "Use `Overlay` to choose between a full-screen lock view and a compact floating view.";
-"Use `Auto-unlock` when you want the session to end automatically after a short cleaning pass." = "Use `Auto-unlock` when you want the session to end automatically after a short cleaning pass.";
-"If your Mac has no Touch ID, set a PIN in Settings so you always have a mouse-only unlock path." = "If your Mac has no Touch ID, set a PIN in Settings so you always have a mouse-only unlock path.";
-"If the app cannot lock the keyboard, confirm Accessibility access is granted in System Settings." = "If the app cannot lock the keyboard, confirm Accessibility access is granted in System Settings.";
-"Open `Diagnostics` from Settings or the menu bar to check permission, event-tap, and unlock state." = "Open `Diagnostics` from Settings or the menu bar to check permission, event-tap, and unlock state.";
-"If permission changes are not detected immediately, relaunch the app and try a quick lock test." = "If permission changes are not detected immediately, relaunch the app and try a quick lock test.";
+"If the keyboard won't lock, confirm Accessibility access is granted in **System Settings → Privacy**." = "If the keyboard won't lock, confirm Accessibility access is granted in **System Settings → Privacy**.";
+"Open **Diagnostics** from Settings to inspect permission, event-tap, and unlock state." = "Open **Diagnostics** from Settings to inspect permission, event-tap, and unlock state.";
+"If changes aren't detected, relaunch the app and run a quick lock test." = "If changes aren't detected, relaunch the app and run a quick lock test.";
+
+/* PIN setup */
+"Set a PIN Code" = "Set a PIN Code";
+"Confirm PIN" = "Confirm PIN";
+"Enter a 4-digit PIN — you'll use it to unlock with your mouse" = "Enter a 4-digit PIN — you'll use it to unlock with your mouse";
+"Re-enter your PIN to confirm" = "Re-enter your PIN to confirm";
+"PINs don't match. Try again." = "PINs don't match. Try again.";
+
+/* Format strings (AppStrings) */
 "Locked for %@" = "Locked for %@";
 "Auto-unlock in %@" = "Auto-unlock in %@";
 "Preset: %@" = "Preset: %@";
