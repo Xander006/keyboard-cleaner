@@ -43,7 +43,7 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer().frame(height: 76)
+            Spacer()
 
             ZStack {
                 ForEach(pages.indices, id: \.self) { i in
@@ -61,40 +61,45 @@ struct OnboardingView: View {
                 }
             }
             .animation(.spring(response: 0.48, dampingFraction: 0.82), value: currentPage)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.horizontal, 32)
+            .frame(maxWidth: .infinity)
 
-            HStack(spacing: 7) {
-                ForEach(pages.indices, id: \.self) { i in
-                    Capsule()
-                        .fill(i == currentPage ? Design.accentStart : Color.primary.opacity(0.18))
-                        .frame(width: i == currentPage ? 20 : 7, height: 7)
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: currentPage)
+            Spacer()
+
+            VStack(spacing: 20) {
+                // Page indicator dots
+                HStack(spacing: 7) {
+                    ForEach(pages.indices, id: \.self) { i in
+                        Capsule()
+                            .fill(i == currentPage
+                                  ? AnyShapeStyle(Design.accentGradient)
+                                  : AnyShapeStyle(Color.primary.opacity(0.15)))
+                            .frame(width: i == currentPage ? 22 : 7, height: 7)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: currentPage)
+                    }
                 }
-            }
-            .padding(.bottom, 28)
+                .accessibilityHidden(true)
 
-            Button {
-                if currentPage < pages.count - 1 {
-                    currentPage += 1
-                } else {
-                    hasSeenOnboarding = true
+                Button {
+                    if currentPage < pages.count - 1 {
+                        currentPage += 1
+                    } else {
+                        hasSeenOnboarding = true
+                    }
+                } label: {
+                    Text(currentPage < pages.count - 1 ? "Continue" : "Get Started")
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(AccentButtonBackground())
+                        .shadow(color: Design.accentStart.opacity(0.28), radius: 14, y: 6)
                 }
-            } label: {
-                Text(currentPage < pages.count - 1 ? "Continue" : "Get Started")
-                    .font(.system(size: 16, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(AccentButtonBackground())
-                    .shadow(color: Design.accentStart.opacity(0.30), radius: 14, y: 6)
+                .buttonStyle(.plain)
+                .accessibilityLabel(currentPage < pages.count - 1 ? "Continue to next page" : "Get started")
+                .keyboardShortcut(.defaultAction)
             }
-            .buttonStyle(.plain)
             .padding(.horizontal, 32)
-            .accessibilityLabel(currentPage < pages.count - 1 ? "Continue to next page" : "Get started")
-            .keyboardShortcut(.defaultAction)
-
-            Spacer().frame(height: 36)
+            .padding(.bottom, 36)
         }
         .accessibilityElement(children: .contain)
     }
@@ -106,19 +111,50 @@ struct OnboardingPage: View {
     let subtitle: String
 
     var body: some View {
-        VStack(spacing: 24) {
-            GlassCircle(diameter: 110) {
+        VStack(spacing: 32) {
+            // Gradient orb with white symbol — matches app icon language
+            ZStack {
+                // Soft glow behind orb
+                Circle()
+                    .fill(Design.accentStart.opacity(0.18))
+                    .frame(width: 140, height: 140)
+                    .blur(radius: 28)
+
+                Circle()
+                    .fill(Design.accentGradient)
+                    .frame(width: 108, height: 108)
+                    .overlay(
+                        Circle()
+                            .fill(LinearGradient(
+                                colors: [.white.opacity(0.22), .clear],
+                                startPoint: UnitPoint(x: 0.2, y: 0.1),
+                                endPoint: UnitPoint(x: 0.7, y: 0.6)
+                            ))
+                    )
+                    .overlay(
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [.white.opacity(0.45), .white.opacity(0.05)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 0.75
+                            )
+                    )
+                    .shadow(color: Design.accentEnd.opacity(0.38), radius: 22, y: 8)
+
                 Image(systemName: icon)
-                    .font(.system(size: 42, weight: .light))
-                    .foregroundStyle(.primary)
-                    .accessibilityHidden(true)
+                    .font(.system(size: 40, weight: .medium))
+                    .foregroundStyle(.white)
+                    .symbolRenderingMode(.hierarchical)
             }
             .accessibilityHidden(true)
 
-            VStack(spacing: 10) {
+            VStack(spacing: 12) {
                 Text(LocalizedStringKey(title))
-                    .font(.system(size: 28, weight: .bold))
-                    .tracking(-0.5)
+                    .font(.system(size: 26, weight: .bold))
+                    .tracking(-0.4)
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
                     .accessibilityAddTraits(.isHeader)
@@ -127,12 +163,11 @@ struct OnboardingPage: View {
                     .font(.system(size: 15))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: 320)
+                    .lineSpacing(2)
+                    .frame(maxWidth: 300)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.horizontal, 36)
-        .padding(.vertical, 34)
-        .background(GlassPanelBackground(cornerRadius: 30))
+        .padding(.horizontal, 32)
     }
 }
