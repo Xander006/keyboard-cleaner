@@ -525,7 +525,58 @@
       background: var(--accent-grad);
       box-shadow: 0 4px 14px rgba(56,204,163,0.24);
     }
-    .system-req { margin-top: 16px; font-size: 12px; color: rgba(17,19,24,0.28); line-height: 1.8; }
+    .system-req {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      text-align: left;
+    }
+    .system-req-meta {
+      font-size: 12px;
+      color: rgba(17,19,24,0.42);
+      line-height: 1.7;
+    }
+    .system-req-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(196, 50, 62, 0.08);
+      border: 1px solid rgba(196, 50, 62, 0.20);
+      color: #8f1f2c;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .system-req-warning strong {
+      color: #7e1420;
+      font-weight: 800;
+    }
+    .system-req-warning::before {
+      content: "!";
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      background: #c4323e;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .system-req-link {
+      font-size: 12px;
+      color: rgba(17,19,24,0.52);
+      line-height: 1.6;
+    }
+    .system-req-link a {
+      color: var(--accent-end);
+      text-decoration: none;
+      font-weight: 700;
+    }
 
     .bmc-wrap {
       margin-top: 28px;
@@ -744,11 +795,18 @@
         <li data-step="4">Cliquez sur <strong>Ouvrir</strong> dans l’alerte macOS, puis autorisez l’accès Accessibilité lorsqu’il est demandé.</li>
       </ol>
     </div>
-    <p class="system-req">
-      macOS 14 Sonoma ou version ultérieure &nbsp;·&nbsp; Apple Silicon et Intel<br>
-      Nécessite une autorisation Accessibilité à activer une seule fois &nbsp;·&nbsp; App non signée pour le moment (bêta) : faites un clic droit sur l’app puis choisissez Ouvrir pour passer Gatekeeper &nbsp;·&nbsp;
-      <a href="https://support.apple.com/fr-fr/guide/mac-help/mh40616/mac" target="_blank" rel="noopener" style="color:var(--accent-end);text-decoration:none;font-weight:600;">Guide Gatekeeper →</a>
-    </p>
+    <div class="system-req">
+      <div class="system-req-meta">
+        macOS 14 Sonoma ou version ultérieure &nbsp;·&nbsp; Apple Silicon et Intel<br>
+        Nécessite une autorisation Accessibilité à activer une seule fois
+      </div>
+      <div class="system-req-warning">
+        <div><strong>App non signée pour le moment (bêta).</strong> Au premier lancement, faites un clic droit sur l’app puis choisissez <strong>Ouvrir</strong> pour passer Gatekeeper.</div>
+      </div>
+      <div class="system-req-link">
+        Besoin d’aide ? <a href="https://support.apple.com/fr-fr/guide/mac-help/mh40616/mac" target="_blank" rel="noopener">Guide Gatekeeper d’Apple →</a>
+      </div>
+    </div>
 
     <div class="bmc-wrap">
       <p>Si l’app vous est utile, vous pouvez m’offrir un café ☕</p>

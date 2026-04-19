@@ -553,7 +553,58 @@
       background: var(--accent-grad);
       box-shadow: 0 4px 14px rgba(56,204,163,0.24);
     }
-    .system-req { margin-top: 16px; font-size: 12px; color: rgba(17,19,24,0.28); line-height: 1.8; }
+    .system-req {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      text-align: left;
+    }
+    .system-req-meta {
+      font-size: 12px;
+      color: rgba(17,19,24,0.42);
+      line-height: 1.7;
+    }
+    .system-req-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(196, 50, 62, 0.08);
+      border: 1px solid rgba(196, 50, 62, 0.20);
+      color: #8f1f2c;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .system-req-warning strong {
+      color: #7e1420;
+      font-weight: 800;
+    }
+    .system-req-warning::before {
+      content: "!";
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      background: #c4323e;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .system-req-link {
+      font-size: 12px;
+      color: rgba(17,19,24,0.52);
+      line-height: 1.6;
+    }
+    .system-req-link a {
+      color: var(--accent-end);
+      text-decoration: none;
+      font-weight: 700;
+    }
 
     .bmc-wrap {
       margin-top: 28px;
@@ -780,11 +831,18 @@
         <li data-step="4">Click <strong>Open</strong> in the macOS warning, then allow Accessibility access when prompted.</li>
       </ol>
     </div>
-    <p class="system-req">
-      macOS 14 Sonoma or later &nbsp;·&nbsp; Apple Silicon &amp; Intel<br>
-      Requires one-time Accessibility permission &nbsp;·&nbsp; Not code-signed yet (beta): right-click the app and choose Open to get past Gatekeeper &nbsp;·&nbsp;
-      <a href="https://support.apple.com/en-ie/guide/mac-help/mh40616/mac" target="_blank" rel="noopener" style="color:var(--accent-end);text-decoration:none;font-weight:600;">Gatekeeper guide →</a>
-    </p>
+    <div class="system-req">
+      <div class="system-req-meta">
+        macOS 14 Sonoma or later &nbsp;·&nbsp; Apple Silicon &amp; Intel<br>
+        Requires one-time Accessibility permission
+      </div>
+      <div class="system-req-warning">
+        <div><strong>Not code-signed yet (beta).</strong> On first launch, right-click the app and choose <strong>Open</strong> to get past Gatekeeper.</div>
+      </div>
+      <div class="system-req-link">
+        Need help? <a href="https://support.apple.com/en-ie/guide/mac-help/mh40616/mac" target="_blank" rel="noopener">Apple’s Gatekeeper guide →</a>
+      </div>
+    </div>
 
     <div class="bmc-wrap">
       <p>If you find it useful, a coffee would make my day ☕</p>
