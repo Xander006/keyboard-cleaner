@@ -539,7 +539,6 @@
     .system-req-chip {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
       padding: 9px 12px;
       border-radius: 999px;
       background: rgba(17,19,24,0.04);
@@ -552,20 +551,6 @@
     .system-req-chip strong {
       color: var(--text);
       font-weight: 700;
-    }
-    .system-req-chip::before {
-      content: attr(data-icon);
-      flex: 0 0 auto;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(20,153,204,0.10);
-      color: var(--accent-end);
-      font-size: 11px;
-      font-weight: 800;
     }
     .system-req-warning {
       display: flex;
@@ -828,8 +813,7 @@
     </div>
     <div class="system-req">
       <div class="system-req-meta">
-        <div class="system-req-chip" data-icon="OS"><strong>macOS 14 Sonoma+</strong> Apple Silicon et Intel</div>
-        <div class="system-req-chip" data-icon="A11Y"><strong>Accessibilité</strong> Autorisation unique requise</div>
+        <div class="system-req-chip"><strong>macOS 14 Sonoma+</strong> Apple Silicon et Intel</div>
       </div>
       <div class="system-req-warning">
         <div><strong>App non signée pour le moment (bêta).</strong> macOS bloquera le premier lancement via Gatekeeper. Ouvrez <strong>menu Apple &gt; Réglages Système &gt; Confidentialité et sécurité</strong>, puis utilisez <strong>Ouvrir quand même</strong> dans la section <strong>Sécurité</strong>. Cette option reste disponible pendant environ une heure après le blocage.</div>
