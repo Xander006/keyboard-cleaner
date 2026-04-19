@@ -511,6 +511,48 @@
     .cta-card h2 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 14px; }
     .cta-card > p { color: var(--muted); font-size: 16px; margin-bottom: 36px; line-height: 1.7; }
     .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .install-note {
+      margin-top: 24px;
+      padding: 22px 22px 18px;
+      text-align: left;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(20,153,204,0.18);
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(20,153,204,0.08);
+    }
+    .install-note h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .install-note p { font-size: 14px; color: var(--muted); margin-bottom: 12px; line-height: 1.7; }
+    .install-steps {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .install-steps li {
+      position: relative;
+      padding-left: 34px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .install-steps li::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent-grad);
+      box-shadow: 0 4px 14px rgba(56,204,163,0.24);
+    }
     .system-req { margin-top: 16px; font-size: 12px; color: rgba(17,19,24,0.28); line-height: 1.8; }
 
     .bmc-wrap {
@@ -728,9 +770,19 @@
         View on GitHub
       </a>
     </div>
+    <div class="install-note">
+      <h3>How to install</h3>
+      <p>The app is currently unsigned, so macOS shows a warning on first launch. Install it like this:</p>
+      <ol class="install-steps">
+        <li data-step="1">Download the <strong>.dmg</strong> and open it.</li>
+        <li data-step="2">Drag <strong>Keyboard Cleaner</strong> into your <strong>Applications</strong> folder.</li>
+        <li data-step="3">Open <strong>Applications</strong>, then <strong>right-click Keyboard Cleaner</strong> and choose <strong>Open</strong>.</li>
+        <li data-step="4">Click <strong>Open</strong> in the macOS warning, then allow Accessibility access when prompted.</li>
+      </ol>
+    </div>
     <p class="system-req">
       macOS 14 Sonoma or later &nbsp;·&nbsp; Apple Silicon &amp; Intel<br>
-      Requires one-time Accessibility permission &nbsp;·&nbsp;
+      Requires one-time Accessibility permission &nbsp;·&nbsp; Not code-signed yet (beta): right-click the app and choose Open to get past Gatekeeper &nbsp;·&nbsp;
       <a href="https://support.apple.com/en-ie/guide/mac-help/mh40616/mac" target="_blank" rel="noopener" style="color:var(--accent-end);text-decoration:none;font-weight:600;">Gatekeeper guide →</a>
     </p>
 
